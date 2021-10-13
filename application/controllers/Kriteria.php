@@ -95,4 +95,10 @@ class Kriteria extends CI_Controller {
 		echo json_encode($response_array);
 	}
 
+	public function proses()
+	{
+		$data_kriteria = $this->Kriteria_model->data()->result();
+		echo json_encode($data_kriteria);
+	}
+
 }
