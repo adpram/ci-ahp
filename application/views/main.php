@@ -68,9 +68,9 @@
 					<a href="javascript:void(0)" onclick="prosesKriteria()" class="btn btn-sm btn-outline-success"><i
 							class="fa fa-refresh" aria-hidden="true"></i> proses</a>
 				</div>
-				<div class="col-12 d-flex justify-content-center mt-2" id="div-proses-kriteria"></div>
-				<div class="row  mt-2" id="div-proses-matriks-normalisasi"></div>
-				<div class="col-12 d-flex justify-content-center mt-2" id="div-proses-matriks-konsistensi"></div>
+				<div class="row mt-2" id="div-proses-kriteria"></div>
+				<div class="row mt-2" id="div-proses-matriks-normalisasi"></div>
+				<div class="row mt-2" id="div-proses-matriks-konsistensi"></div>
 			</div>
 		</div>
 	</div>
@@ -700,21 +700,23 @@
 				tfoot += '<th>' + x + '</th>'
 			}
 
-			$('#div-proses-kriteria').html("<table class='table table-bordered border-success' style='width:100%'>" +
-				"<thead>" +
-                    "<tr>" +
-                        "<th>Kode</th>" +
-                        th +
-                    "</tr>" +
-                "</thead>" +
-                "<tbody>" +
-                    tr_td +
-                    "<tr>" +
-                        "<th>Total</th>" +
-                        tfoot +
-                    "</tr>" +
-				"</tbody>" +
-			"</table>");
+			$('#div-proses-kriteria').html("<div class='col-md-12 table-responsive'>"+
+                "<table class='table table-bordered border-success' style='width:100%'>" +
+                    "<thead>" +
+                        "<tr>" +
+                            "<th>Kode</th>" +
+                            th +
+                        "</tr>" +
+                    "</thead>" +
+                    "<tbody>" +
+                        tr_td +
+                        "<tr>" +
+                            "<th>Total</th>" +
+                            tfoot +
+                        "</tr>" +
+                    "</tbody>" +
+                "</table>"+
+            "</div>");
 		}
 
 		function matriksNormalisasiKriteria(data) {
@@ -844,7 +846,7 @@
 			} else {
 				is_consistent = "Tidak Konsisten"
 			}
-			$('#div-proses-matriks-konsistensi').html("<div class='row'>" +
+			$('#div-proses-matriks-konsistensi').html("<div class='row table-responsive'>" +
 				"<p>Konsistensi</p>" +
 				"<div class='col-6'>" +
                     "<table class='table table-bordered border-success' style='width:100%'>" +
