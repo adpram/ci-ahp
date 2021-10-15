@@ -9,16 +9,9 @@
 	<link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css" />
 	<link rel="stylesheet" href="<?= base_url('assets/font-awesome-4.7.0/css/font-awesome.min.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('assets/select2/dist/css/select2.min.css') ?>">
 	<style>
-		.tbl-info-nilai-kriteria {
-			font-size: 12px !important
-		}
-
-		.tbl-normalisasi {
-			font-size: 12px !important
-		}
-
-		.tbl-matrix-consistency {
+		.tbl-info-nilai-kriteria, .tbl-normalisasi, .tbl-matrix-consistency {
 			font-size: 12px !important
 		}
 	</style>
@@ -43,6 +36,25 @@
 				</thead>
 				<tbody></tbody>
 			</table>
+            <br>
+            <h4>Sub Kriteria</h4>
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
+				data-bs-target="#tambahSubKriteriaModal">
+				tambah sub kriteria
+			</button>
+
+			<table class="table table-striped table-bordered nowrap" id="tbl-sub-kriteria" style="width:100%">
+				<thead>
+					<th>Kriteria</th>
+					<th>Kode</th>
+					<th>Nama</th>
+					<th>Nilai</th>
+					<th>Aksi</th>
+				</thead>
+				<tbody></tbody>
+			</table>
+            <br>
 			<h4>Alternatif</h4>
 			<!-- Button trigger modal -->
 			<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
@@ -267,6 +279,112 @@
 		</div>
 	</div>
 
+	<!-- SUBKRITERIA -->
+	<!-- simpan subkriteria -->
+	<div class="modal fade" id="tambahSubKriteriaModal" tabindex="-1" aria-labelledby="tambahSubKriteriaModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="tambahSubKriteriaModalLabel">Tambah Sub Kriteria</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<form class="form-horizontal" id="simpanSubKriteria">
+					<div class="modal-body">
+						<div class="row mb-1">
+							<div class="col-6">
+								<div class="row">
+									<div class="col-md-3">
+										<p>Kriteria</p>
+									</div>
+									<div class="col-md-9 form-group">
+										<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="pilihKriteria" name="kriteria_id" required>
+											<option value='0'>-- Pilih Kriteria --</option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<p>Kode</p>
+									</div>
+									<div class="col-md-9">
+										<input type="text" class="form-control" name="kode_sub_kriteria" required>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<p>Nama</p>
+									</div>
+									<div class="col-md-9">
+										<textarea class="form-control" name="nama_sub_kriteria" cols="10" rows="5"
+											required></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<p>Nilai</p>
+									</div>
+									<div class="col-md-9">
+										<input type="number" min="1" max="9" class="form-control" name="nilai_sub_kriteria"
+											required>
+									</div>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="row">
+									<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+								</div>
+								<div class="row">
+									<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
+										<thead>
+											<th>Intensitas Kepentingan</th>
+											<th>Definisi</th>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>Sama pentingnya dibanding dengan yang lain</td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td>Sedikit lebih penting dibanding yang lain</td>
+											</tr>
+											<tr>
+												<td>5</td>
+												<td>Cukup penting dibanding dengan yang lain</td>
+											</tr>
+											<tr>
+												<td>7</td>
+												<td>Sangat penting dibanding dengan yang lain</td>
+											</tr>
+											<tr>
+												<td>9</td>
+												<td>Ekstrim pentingnya dibanding yang lain</td>
+											</tr>
+											<tr>
+												<td>2,4,6,8</td>
+												<td>Nilai diantara dua penilaian yang berdekatan</td>
+											</tr>
+											<tr>
+												<td>Resiprokal</td>
+												<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
+													j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-success btn-sm">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<!-- ALTERNATIF -->
 	<!-- simpan alternatif -->
 	<div class="modal fade" id="tambahAlternatifModal" tabindex="-1" aria-labelledby="tambahAlternatifModalLabel"
@@ -345,10 +463,11 @@
 	</div>
 	<script src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
 	<script src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
+	<script src="<?= base_url('assets/select2/dist/js/select2.min.js') ?>"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script type="text/javascript">
-		var table_kriteria = $('#tbl-kriteria').DataTable({
+		var tabel_kriteria = $('#tbl-kriteria').DataTable({
 			"responsive": true,
 			"serverSide": true,
 			"order": [],
@@ -358,7 +477,17 @@
 			},
 		});
 
-		var table_alternatif = $('#tbl-alternatif').DataTable({
+        var tabel_sub_kriteria = $('#tbl-sub-kriteria').DataTable({
+			"responsive": true,
+			"serverSide": true,
+			"order": [],
+			"ajax": {
+				url: "<?= site_url('subkriteria/data') ?>",
+				type: "POST"
+			},
+		});
+
+		var tabel_alternatif = $('#tbl-alternatif').DataTable({
 			"responsive": true,
 			"serverSide": true,
 			"order": [],
@@ -448,6 +577,7 @@
 							$('#ubahKriteriaModal').modal('hide');
 							$('#ubahKriteriaModal form')[0].reset();
 							$('#tbl-kriteria').DataTable().ajax.reload();
+							$('#tbl-sub-kriteria').DataTable().ajax.reload();
 						});
 					},
 					error: function (e) {
@@ -489,16 +619,129 @@
 							dataType: "json",
 							type: "POST",
 							success: function (data) {
-								console.log(data.status)
-								swal("Kriteria berhasil dihapus", {
-									icon: "success",
-								}).then(function () {
-									$('#tbl-kriteria').DataTable().ajax.reload();
-								});
+								if (data.status == "error") {
+									swal({
+										title: 'Gagal menghapus data!',
+										text: 'Kriteria memiliki subkriteria, silahkan hapus subkriteria terlebih dahulu',
+										icon: 'error'
+									})
+								} else {
+									swal("Kriteria berhasil dihapus", {
+										icon: "success",
+									}).then(function () {
+										$('#tbl-kriteria').DataTable().ajax.reload();
+									});
+								}
 							},
 							error: function () {
 								swal({
 									text: 'Kriteria gagal dihapus!',
+									icon: 'error'
+								})
+							}
+						});
+						break;
+				}
+			});
+		}
+
+		// SUB KRITERIA
+		$("#pilihKriteria").select2({
+			dropdownParent: $("#tambahSubKriteriaModal"),
+			ajax: {
+				url: "<?= site_url('subkriteria/data_kriteria') ?>",
+				type: "post",
+				dataType: 'json',
+				delay: 250,
+				data: function (params) {
+					return {
+						searchTerm: params.term // search term
+					};
+				},
+				processResults: function (data) {
+					return {
+						results: data
+					};
+				},
+				cache: true
+			}
+		});
+
+		$('#simpanSubKriteria').on('submit', function (e) {
+			if (!e.isDefaultPrevented()) {
+
+				$.ajax({
+					url: "<?= site_url('subkriteria/simpan') ?>",
+					type: "POST",
+					beforeSend: function () {
+						swal({
+							title: 'Tunggu',
+							text: 'Memproses data...',
+							buttons: false
+						})
+					},
+					data: $('#simpanSubKriteria').serialize(),
+					dataType: "json",
+					success: function (data) {
+						swal({
+							title: 'Berhasil!',
+							text: 'Sub Kriteria berhasil ditambahkan!',
+							icon: 'success'
+						}).then(function () {
+							$('#tambahSubKriteriaModal').modal('hide');
+							$('#tambahSubKriteriaModal form')[0].reset();
+							//datatable refresh
+							$('#tbl-sub-kriteria').DataTable().ajax.reload();
+						});
+					},
+					error: function (e) {
+						console.log(e)
+						alert("Gagal, silahkan menghubungi IT");
+					}
+				});
+				return false;
+
+			}
+		});
+
+		function hapusSubKriteria(id) {
+			swal({
+				title: "Apakah anda yakin ?",
+				text: "Sub Kriteria akan dihapus",
+				icon: "warning",
+				buttons: {
+					canceled: {
+						text: 'Cancel',
+						value: 'cancel',
+						className: 'swal-button btn-default'
+					},
+					deleted: {
+						text: 'Delete',
+						value: 'delete',
+						className: 'swal-button btn-danger'
+					}
+				},
+				dangerMode: true,
+			}).then((willDelete) => {
+				switch (willDelete) {
+					default:
+						swal("Sub Kriteria aman");
+						break;
+					case 'delete':
+						$.ajax({
+							url: "subkriteria/hapus/" + id,
+							dataType: "json",
+							type: "POST",
+							success: function (data) {
+								swal("Sub Kriteria berhasil dihapus", {
+									icon: "success",
+								}).then(function () {
+									$('#tbl-sub-kriteria').DataTable().ajax.reload();
+								});
+							},
+							error: function () {
+								swal({
+									text: 'Sub Kriteria gagal dihapus!',
 									icon: 'error'
 								})
 							}

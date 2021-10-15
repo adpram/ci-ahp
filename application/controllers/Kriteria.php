@@ -89,9 +89,15 @@ class Kriteria extends CI_Controller {
 
 	public function hapus($id)
 	{	
-		$where = array('id_kriteria' => $id);
-		$this->Kriteria_model->hapus($where,'kriteria');
-		$response_array['status'] = 'success';
+		$check = $this->Kriteria_model->cekSubkriteria($id)->result();
+		if ( count($check) > 0 ) {
+			// ada subtotal, gabisa dihapus slur
+			$response_array['status'] = 'error';
+		} else {
+			$where = array('id_kriteria' => $id);
+			$this->Kriteria_model->hapus($where,'kriteria');
+			$response_array['status'] = 'success';
+		}
 		echo json_encode($response_array);
 	}
 

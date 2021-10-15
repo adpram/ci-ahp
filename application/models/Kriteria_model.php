@@ -14,6 +14,12 @@ class Kriteria_model extends CI_Model {
         $this->db->update($table, $data);
     }
 
+    public function cekSubkriteria($id){
+        $this->db->from('subkriteria');
+        $this->db->where('kriteria_id', $id);
+        return $this->db->get();
+    }
+
     public function hapus($where, $table){
         $this->db->where($where);
         $this->db->delete($table);
