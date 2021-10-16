@@ -18,7 +18,7 @@ class Subkriteria_model extends CI_Model {
     }
 
     var $table = "subkriteria";  
-    var $order_column = array(null, "kode_sub_kriteria", "nama_sub_kriteria", null);  
+    var $order_column = array(null, "kode_sub_kriteria", null);  
     function make_query()  
     {  
         $this->db->select('subkriteria.*, kriteria.kode_kriteria');  
@@ -27,7 +27,6 @@ class Subkriteria_model extends CI_Model {
         if(isset($_POST["search"]["value"]))  
         {  
             $this->db->like("kode_sub_kriteria", $_POST["search"]["value"]);  
-            $this->db->or_like("nama_sub_kriteria", $_POST["search"]["value"]);  
             $this->db->or_like("kriteria.kode_kriteria", $_POST["search"]["value"]);  
         }  
         if(isset($_POST["order"]))  

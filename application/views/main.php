@@ -14,6 +14,27 @@
 		.tbl-info-nilai-kriteria, .tbl-normalisasi, .tbl-matrix-consistency {
 			font-size: 12px !important
 		}
+		.ahp-note {
+			font-size: 12px
+		}
+		ul.note-list {
+			border: solid 2px #10ac84;
+			border-radius: 5px;
+			padding: 0.5em 1em 0.5em 2.3em;
+			position: relative;
+		}
+		ul.note-list li {
+			line-height: 1.5;
+			padding: 0.5em 0;
+			list-style-type: none!important;
+		}
+		ul.note-list li:before {
+			font-family: FontAwesome;
+			content: "\f138";
+			position: absolute;
+			left : 1em;
+			color: #10ac84;
+		}
 	</style>
 </head>
 
@@ -84,7 +105,7 @@
 					<thead>
 						<th>Kriteria</th>
 						<th>Kode</th>
-						<th>Nama</th>
+						<th>Keterangan</th>
 						<th>Nilai</th>
 						<th>Aksi</th>
 					</thead>
@@ -120,6 +141,16 @@
 				<div class="col-12 d-flex justify-content-center">
 					<a href="javascript:void(0)" onclick="prosesKriteria()" class="btn btn-sm btn-outline-success"><i
 							class="fa fa-refresh" aria-hidden="true"></i> proses</a>
+				</div>
+				<div class="ahp-note">
+					<span>Note :</sp>
+					<ul class="note-list">
+						<li>Consistency Index : untuk menghitung indeks konsistensi dengan rumus CI = (l max - n)/n-1</li>
+						<li>Index Random : value sudah sesuai dengan matriks/kategori</li>
+						<li>Consistency Ratio : Nilai Konsisten Rasio (CI/RI)</li>
+						<li>Prioritas : menghitung jumlah normalisasi tiap baris/jumlah kriteria</li>
+						<li>Eigin Value : mengalikan matriks perbandingan berpasangan dengan bobot prioritas (A)(Wt)</li>
+					</ul>
 				</div>
 				<div class="row mt-2" id="div-proses-kriteria"></div>
 				<div class="row mt-2" id="div-proses-matriks-normalisasi"></div>
@@ -456,87 +487,87 @@
 				<form class="form-horizontal" id="simpanSubKriteria">
 					<div class="modal-body">
 						<div class="row mb-1">
-							<div class="col-6">
-								<div class="row">
-									<div class="col-md-3">
-										<p>Kriteria</p>
-									</div>
-									<div class="col-md-9 form-group">
-										<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="pilihKriteria" name="kriteria_id" required>
-											<option value='0'>-- Pilih Kriteria --</option>
-										</select>
-									</div>
+							<div class="row mb-2">
+								<div class="col-md-5 form-group">
+									<label for="">Kriteria</label>
+									<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="pilihKriteria" name="kriteria_id" required>
+										<option value='0'>-- Pilih Kriteria --</option>
+									</select>
 								</div>
-								<div class="row">
-									<div class="col-md-3">
-										<p>Kode</p>
-									</div>
-									<div class="col-md-9">
-										<input type="text" class="form-control" name="kode_sub_kriteria" required>
-									</div>
+								<div class="col-md-4">
+									<label for="">Kode</label>
+									<input type="text" class="form-control" name="kode_sub_kriteria" required>
 								</div>
-								<div class="row">
-									<div class="col-md-3">
-										<p>Nama</p>
-									</div>
-									<div class="col-md-9">
-										<textarea class="form-control" name="nama_sub_kriteria" cols="10" rows="5"
-											required></textarea>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3">
-										<p>Nilai</p>
-									</div>
-									<div class="col-md-9">
-										<input type="number" min="1" max="9" class="form-control" name="nilai_sub_kriteria"
-											required>
-									</div>
+								<div class="col-md-3">
+									<label for="">Nilai</label>
+									<input type="number" min="1" max="9" class="form-control" name="nilai_sub_kriteria" required>
 								</div>
 							</div>
-							<div class="col-6">
-								<div class="row">
-									<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+							<div class="row mb-3">
+								<div class="col-md-2 form-group">
+									<label for="">Nominal 1</label>
+									<select class="form-control" name="simbol" id="simbol">
+										<option value=""></option>
+										<option value=">">></option>
+										<option value="<"><</option>
+									</select>
 								</div>
-								<div class="row">
-									<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
-										<thead>
-											<th>Intensitas Kepentingan</th>
-											<th>Definisi</th>
-										</thead>
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Sama pentingnya dibanding dengan yang lain</td>
-											</tr>
-											<tr>
-												<td>3</td>
-												<td>Sedikit lebih penting dibanding yang lain</td>
-											</tr>
-											<tr>
-												<td>5</td>
-												<td>Cukup penting dibanding dengan yang lain</td>
-											</tr>
-											<tr>
-												<td>7</td>
-												<td>Sangat penting dibanding dengan yang lain</td>
-											</tr>
-											<tr>
-												<td>9</td>
-												<td>Ekstrim pentingnya dibanding yang lain</td>
-											</tr>
-											<tr>
-												<td>2,4,6,8</td>
-												<td>Nilai diantara dua penilaian yang berdekatan</td>
-											</tr>
-											<tr>
-												<td>Resiprokal</td>
-												<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
-													j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
-											</tr>
-										</tbody>
-									</table>
+								<div class="col-md-4">
+									<label for="" style="color:white">S</label>
+									<input type="text" class="form-control" name="sub_kriteria_satu" id="sub_kriteria_satu" required>
 								</div>
+								<div class="col-md-4">
+									<label for="">Nominal 2</label>
+									<input type="text" class="form-control" name="sub_kriteria_dua" id="sub_kriteria_dua">
+								</div>
+								<div class="col-md-2 pt-4">
+									<input type="checkbox" name="persen" id="persen" value=1>
+									<label for="">%</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="row">
+								<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+							</div>
+							<div class="row">
+								<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
+									<thead>
+										<th>Intensitas Kepentingan</th>
+										<th>Definisi</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>Sama pentingnya dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>Sedikit lebih penting dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>5</td>
+											<td>Cukup penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>7</td>
+											<td>Sangat penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>9</td>
+											<td>Ekstrim pentingnya dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>2,4,6,8</td>
+											<td>Nilai diantara dua penilaian yang berdekatan</td>
+										</tr>
+										<tr>
+											<td>Resiprokal</td>
+											<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
+												j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -561,87 +592,87 @@
 					<div class="modal-body">
 						<input type="hidden" name="edit_id_sub_kriteria" id="edit_id_sub_kriteria">
 						<div class="row mb-1">
-							<div class="col-6">
-								<div class="row">
-									<div class="col-md-3">
-										<p>Kriteria</p>
-									</div>
-									<div class="col-md-9 form-group">
-										<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="ubahKriteria" name="edit_kriteria_id" required>
-											<option value='0'>-- Pilih Kriteria --</option>
-										</select>
-									</div>
+							<div class="row mb-2">
+								<div class="col-md-5 form-group">
+									<label for="">Kriteria</label>
+									<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="ubahKriteria" name="edit_kriteria_id" required>
+										<option value='0'>-- Pilih Kriteria --</option>
+									</select>
 								</div>
-								<div class="row">
-									<div class="col-md-3">
-										<p>Kode</p>
-									</div>
-									<div class="col-md-9">
-										<input type="text" class="form-control" name="edit_kode_sub_kriteria" id="edit_kode_sub_kriteria" required>
-									</div>
+								<div class="col-md-4">
+									<label for="">Kode</label>
+									<input type="text" class="form-control" name="edit_kode_sub_kriteria" id="edit_kode_sub_kriteria" required>
 								</div>
-								<div class="row">
-									<div class="col-md-3">
-										<p>Nama</p>
-									</div>
-									<div class="col-md-9">
-										<textarea class="form-control" name="edit_nama_sub_kriteria" id="edit_nama_sub_kriteria" cols="10" rows="5"
-											required></textarea>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3">
-										<p>Nilai</p>
-									</div>
-									<div class="col-md-9">
-										<input type="number" min="1" max="9" class="form-control" name="edit_nilai_sub_kriteria" id="edit_nilai_sub_kriteria"
-											required>
-									</div>
+								<div class="col-md-3">
+									<label for="">Nilai</label>
+									<input type="number" min="1" max="9" class="form-control" name="edit_nilai_sub_kriteria" id="edit_nilai_sub_kriteria" required>
 								</div>
 							</div>
-							<div class="col-6">
-								<div class="row">
-									<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+							<div class="row mb-3">
+								<div class="col-md-2 form-group">
+									<label for="">Nominal 1</label>
+									<select class="form-control" name="edit_simbol" id="edit_simbol">
+										<option value=""></option>
+										<option value=">">></option>
+										<option value="<"><</option>
+									</select>
 								</div>
-								<div class="row">
-									<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
-										<thead>
-											<th>Intensitas Kepentingan</th>
-											<th>Definisi</th>
-										</thead>
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Sama pentingnya dibanding dengan yang lain</td>
-											</tr>
-											<tr>
-												<td>3</td>
-												<td>Sedikit lebih penting dibanding yang lain</td>
-											</tr>
-											<tr>
-												<td>5</td>
-												<td>Cukup penting dibanding dengan yang lain</td>
-											</tr>
-											<tr>
-												<td>7</td>
-												<td>Sangat penting dibanding dengan yang lain</td>
-											</tr>
-											<tr>
-												<td>9</td>
-												<td>Ekstrim pentingnya dibanding yang lain</td>
-											</tr>
-											<tr>
-												<td>2,4,6,8</td>
-												<td>Nilai diantara dua penilaian yang berdekatan</td>
-											</tr>
-											<tr>
-												<td>Resiprokal</td>
-												<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
-													j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
-											</tr>
-										</tbody>
-									</table>
+								<div class="col-md-4">
+									<label for="" style="color:white">S</label>
+									<input type="text" class="form-control" name="edit_sub_kriteria_satu" id="edit_sub_kriteria_satu" required>
 								</div>
+								<div class="col-md-4">
+									<label for="">Nominal 2</label>
+									<input type="text" class="form-control" name="edit_sub_kriteria_dua" id="edit_sub_kriteria_dua">
+								</div>
+								<div class="col-md-2 pt-4">
+									<input type="checkbox" name="edit_persen" id="edit_persen" value=1>
+									<label for="">%</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="row">
+								<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+							</div>
+							<div class="row">
+								<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
+									<thead>
+										<th>Intensitas Kepentingan</th>
+										<th>Definisi</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>Sama pentingnya dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>Sedikit lebih penting dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>5</td>
+											<td>Cukup penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>7</td>
+											<td>Sangat penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>9</td>
+											<td>Ekstrim pentingnya dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>2,4,6,8</td>
+											<td>Nilai diantara dua penilaian yang berdekatan</td>
+										</tr>
+										<tr>
+											<td>Resiprokal</td>
+											<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
+												j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -795,7 +826,6 @@
 			nilai_volume.addEventListener('keyup', function(e){
 				nilai_volume.value = formatAngka(this.value);
 			});
-
 			var nilai_market_cap = document.getElementById('nilai_market_cap');
 			nilai_market_cap.addEventListener('keyup', function(e){
 				nilai_market_cap.value = formatAngka(this.value);
@@ -805,10 +835,27 @@
 			edit_nilai_volume.addEventListener('keyup', function(e){
 				edit_nilai_volume.value = formatAngka(this.value);
 			});
-
 			var edit_nilai_market_cap = document.getElementById('edit_nilai_market_cap');
 			edit_nilai_market_cap.addEventListener('keyup', function(e){
 				edit_nilai_market_cap.value = formatAngka(this.value);
+			});
+
+			var sub_kriteria_satu = document.getElementById('sub_kriteria_satu');
+			sub_kriteria_satu.addEventListener('keyup', function(e){
+				sub_kriteria_satu.value = formatAngka(this.value);
+			});
+			var sub_kriteria_dua = document.getElementById('sub_kriteria_dua');
+			sub_kriteria_dua.addEventListener('keyup', function(e){
+				sub_kriteria_dua.value = formatAngka(this.value);
+			});
+
+			var edit_sub_kriteria_satu = document.getElementById('edit_sub_kriteria_satu');
+			edit_sub_kriteria_satu.addEventListener('keyup', function(e){
+				edit_sub_kriteria_satu.value = formatAngka(this.value);
+			});
+			var edit_sub_kriteria_dua = document.getElementById('edit_sub_kriteria_dua');
+			edit_sub_kriteria_dua.addEventListener('keyup', function(e){
+				edit_sub_kriteria_dua.value = formatAngka(this.value);
 			});
 		}
 
@@ -1126,46 +1173,6 @@
 			}
 		});
 
-		function editSubKriteria(id) {
-			$.ajax({
-				url: "subkriteria/edit/" + id,
-				type: "GET",
-				dataType: "JSON",
-				success: function (data) {
-					$('#ubahSubKriteriaModal').modal('show');
-					console.log("edit subkriteria", data)
-					$("#ubahKriteria").select2({
-						dropdownParent: $("#ubahSubKriteriaModal"),
-						ajax: {
-							url: "<?= site_url('subkriteria/data_kriteria') ?>",
-							type: "post",
-							dataType: 'json',
-							delay: 250,
-							data: function (params) {
-								return {
-									searchTerm: params.term // search term
-								};
-							},
-							processResults: function (response) {
-								return {
-									results: response
-								};
-							},
-							cache: true
-						}
-					});
-					$("#ubahKriteria").html('<option value = "'+data.kriteria_id+'" selected >('+data.kode_kriteria+') '+data.nama_kriteria+'</option>');
-					$("#edit_id_sub_kriteria").val(data.id_sub_kriteria);
-					$("#edit_kode_sub_kriteria").val(data.kode_sub_kriteria);
-					$("#edit_nama_sub_kriteria").val(data.nama_sub_kriteria);
-					$("#edit_nilai_sub_kriteria").val(data.nilai_sub_kriteria);
-				},
-				error: function () {
-					alert("Gagal, silahkan menghubungi IT");
-				}
-			})
-		}
-
 		$('#simpanSubKriteria').on('submit', function (e) {
 			if (!e.isDefaultPrevented()) {
 
@@ -1202,6 +1209,53 @@
 
 			}
 		});
+
+		function editSubKriteria(id) {
+			$.ajax({
+				url: "subkriteria/edit/" + id,
+				type: "GET",
+				dataType: "JSON",
+				success: function (data) {
+					$('#ubahSubKriteriaModal').modal('show');
+					console.log("edit subkriteria", data)
+					$("#ubahKriteria").select2({
+						dropdownParent: $("#ubahSubKriteriaModal"),
+						ajax: {
+							url: "<?= site_url('subkriteria/data_kriteria') ?>",
+							type: "post",
+							dataType: 'json',
+							delay: 250,
+							data: function (params) {
+								return {
+									searchTerm: params.term // search term
+								};
+							},
+							processResults: function (response) {
+								return {
+									results: response
+								};
+							},
+							cache: true
+						}
+					});
+					$("#ubahKriteria").html('<option value = "'+data.kriteria_id+'" selected >('+data.kode_kriteria+') '+data.nama_kriteria+'</option>');
+					$("#edit_id_sub_kriteria").val(data.id_sub_kriteria);
+					$("#edit_kode_sub_kriteria").val(data.kode_sub_kriteria);
+					$("#edit_simbol").val(data.simbol).trigger('change');
+					$("#edit_sub_kriteria_satu").val(data.sub_kriteria_satu);
+					$("#edit_sub_kriteria_dua").val(data.sub_kriteria_dua);
+					if(data.persen == 1){
+						$('#edit_persen').prop('checked', true);
+					}else{
+						$('#edit_persen').prop('checked', false);
+					}
+					$("#edit_nilai_sub_kriteria").val(data.nilai_sub_kriteria);
+				},
+				error: function () {
+					alert("Gagal, silahkan menghubungi IT");
+				}
+			})
+		}
 
 		$('#perbaruiSubKriteria').on('submit', function (e) {
 			if (!e.isDefaultPrevented()) {
