@@ -64,6 +64,19 @@ class Subkriteria_model extends CI_Model {
         $this->db->insert($table,$data);
     }
 
+    public function edit($where, $table){
+        $this->db->select('subkriteria.*, kriteria.kode_kriteria, kriteria.nama_kriteria');  
+        $this->db->join('kriteria', 'kriteria.id_kriteria = subkriteria.kriteria_id', 'left');
+        $this->db->from($table);
+        $this->db->where($where);
+        return $this->db->get();
+    }
+
+    public function perbarui($where, $data, $table){
+        $this->db->where($where);
+        $this->db->update($table, $data);
+    }
+
     public function hapus($where, $table){
         $this->db->where($where);
         $this->db->delete($table);

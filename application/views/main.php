@@ -74,7 +74,7 @@
 		<div class="col-7">
 			<div class="row mt-5">
 				<div class="col-12 d-flex justify-content-center">
-					<h3>Matriks Perbandingan Antar Kriteria</h3>
+					<h3>Perhitungan AHP <i>(Analytic Hierarchy Process)</i></h3>
 				</div>
 				<div class="col-12 d-flex justify-content-center">
 					<a href="javascript:void(0)" onclick="prosesKriteria()" class="btn btn-sm btn-outline-success"><i
@@ -384,6 +384,111 @@
 			</div>
 		</div>
 	</div>
+	<!-- ubah subkriteria -->
+	<div class="modal fade" id="ubahSubKriteriaModal" tabindex="-1" aria-labelledby="ubahSubKriteriaModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ubahSubKriteriaModalLabel">Ubah Sub Kriteria</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<form class="form-horizontal" id="perbaruiSubKriteria">
+					<div class="modal-body">
+						<input type="hidden" name="edit_id_sub_kriteria" id="edit_id_sub_kriteria">
+						<div class="row mb-1">
+							<div class="col-6">
+								<div class="row">
+									<div class="col-md-3">
+										<p>Kriteria</p>
+									</div>
+									<div class="col-md-9 form-group">
+										<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="ubahKriteria" name="edit_kriteria_id" required>
+											<option value='0'>-- Pilih Kriteria --</option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<p>Kode</p>
+									</div>
+									<div class="col-md-9">
+										<input type="text" class="form-control" name="edit_kode_sub_kriteria" id="edit_kode_sub_kriteria" required>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<p>Nama</p>
+									</div>
+									<div class="col-md-9">
+										<textarea class="form-control" name="edit_nama_sub_kriteria" id="edit_nama_sub_kriteria" cols="10" rows="5"
+											required></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<p>Nilai</p>
+									</div>
+									<div class="col-md-9">
+										<input type="number" min="1" max="9" class="form-control" name="edit_nilai_sub_kriteria" id="edit_nilai_sub_kriteria"
+											required>
+									</div>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="row">
+									<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+								</div>
+								<div class="row">
+									<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
+										<thead>
+											<th>Intensitas Kepentingan</th>
+											<th>Definisi</th>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>Sama pentingnya dibanding dengan yang lain</td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td>Sedikit lebih penting dibanding yang lain</td>
+											</tr>
+											<tr>
+												<td>5</td>
+												<td>Cukup penting dibanding dengan yang lain</td>
+											</tr>
+											<tr>
+												<td>7</td>
+												<td>Sangat penting dibanding dengan yang lain</td>
+											</tr>
+											<tr>
+												<td>9</td>
+												<td>Ekstrim pentingnya dibanding yang lain</td>
+											</tr>
+											<tr>
+												<td>2,4,6,8</td>
+												<td>Nilai diantara dua penilaian yang berdekatan</td>
+											</tr>
+											<tr>
+												<td>Resiprokal</td>
+												<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
+													j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-success btn-sm">Perbarui</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 	<!-- ALTERNATIF -->
 	<!-- simpan alternatif -->
@@ -667,6 +772,46 @@
 			}
 		});
 
+		function editSubKriteria(id) {
+			$.ajax({
+				url: "subkriteria/edit/" + id,
+				type: "GET",
+				dataType: "JSON",
+				success: function (data) {
+					$('#ubahSubKriteriaModal').modal('show');
+					console.log("edit subkriteria", data)
+					$("#ubahKriteria").select2({
+						dropdownParent: $("#ubahSubKriteriaModal"),
+						ajax: {
+							url: "<?= site_url('subkriteria/data_kriteria') ?>",
+							type: "post",
+							dataType: 'json',
+							delay: 250,
+							data: function (params) {
+								return {
+									searchTerm: params.term // search term
+								};
+							},
+							processResults: function (response) {
+								return {
+									results: response
+								};
+							},
+							cache: true
+						}
+					});
+					$("#ubahKriteria").html('<option value = "'+data.kriteria_id+'" selected >('+data.kode_kriteria+') '+data.nama_kriteria+'</option>');
+					$("#edit_id_sub_kriteria").val(data.id_sub_kriteria);
+					$("#edit_kode_sub_kriteria").val(data.kode_sub_kriteria);
+					$("#edit_nama_sub_kriteria").val(data.nama_sub_kriteria);
+					$("#edit_nilai_sub_kriteria").val(data.nilai_sub_kriteria);
+				},
+				error: function () {
+					alert("Gagal, silahkan menghubungi IT");
+				}
+			})
+		}
+
 		$('#simpanSubKriteria').on('submit', function (e) {
 			if (!e.isDefaultPrevented()) {
 
@@ -691,6 +836,42 @@
 							$('#tambahSubKriteriaModal').modal('hide');
 							$('#tambahSubKriteriaModal form')[0].reset();
 							//datatable refresh
+							$('#tbl-sub-kriteria').DataTable().ajax.reload();
+						});
+					},
+					error: function (e) {
+						console.log(e)
+						alert("Gagal, silahkan menghubungi IT");
+					}
+				});
+				return false;
+
+			}
+		});
+
+		$('#perbaruiSubKriteria').on('submit', function (e) {
+			if (!e.isDefaultPrevented()) {
+
+				$.ajax({
+					url: "<?= site_url('subkriteria/perbarui') ?>",
+					type: "POST",
+					beforeSend: function () {
+						swal({
+							title: 'Tunggu',
+							text: 'Memproses data...',
+							buttons: false
+						})
+					},
+					data: $('#perbaruiSubKriteria').serialize(),
+					dataType: "json",
+					success: function (data) {
+						swal({
+							title: 'Berhasil!',
+							text: 'Kriteria berhasil diperbarui!',
+							icon: 'success'
+						}).then(function () {
+							$('#ubahSubKriteriaModal').modal('hide');
+							$('#ubahSubKriteriaModal form')[0].reset();
 							$('#tbl-sub-kriteria').DataTable().ajax.reload();
 						});
 					},
@@ -944,6 +1125,7 @@
 			}
 
 			$('#div-proses-kriteria').html("<div class='col-md-12 table-responsive'>"+
+                "<p>Matriks Perbandingan Antar Kriteria</p>" +
                 "<table class='table table-bordered border-success' style='width:100%'>" +
                     "<thead>" +
                         "<tr>" +

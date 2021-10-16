@@ -59,6 +59,49 @@ class Subkriteria extends CI_Controller {
 		echo json_encode($response_array);
     }
 
+	public function edit($id)
+	{
+		$where = array('id_sub_kriteria' => $id);
+		$subkriteria = $this->Subkriteria_model->edit($where,'subkriteria')->result();
+		foreach ( $subkriteria as $row ) {
+			$id_sub_kriteria = $row->id_sub_kriteria;
+			$kriteria_id = $row->kriteria_id;
+			$nama_kriteria = $row->nama_kriteria;
+			$kode_kriteria = $row->kode_kriteria;
+			$kode_sub_kriteria = $row->kode_sub_kriteria;
+			$nama_sub_kriteria = $row->nama_sub_kriteria;
+			$nilai_sub_kriteria = $row->nilai_sub_kriteria;
+		}
+		header('Content-Type: application/json');
+		$result = array("id_sub_kriteria" => $id_sub_kriteria, "kriteria_id" => $kriteria_id, "nama_kriteria" => $nama_kriteria, "kode_kriteria" => $kode_kriteria, "kode_sub_kriteria" => $kode_sub_kriteria, "nama_sub_kriteria" => $nama_sub_kriteria, "nilai_sub_kriteria" => $nilai_sub_kriteria);
+		echo json_encode($result);
+	}
+
+	public function perbarui()
+	{
+		$id = $this->input->post('edit_id_sub_kriteria');
+		$kriteria_id = $this->input->post('edit_kriteria_id');
+		$kode_sub_kriteria = $this->input->post('edit_kode_sub_kriteria');
+		$nama_sub_kriteria = $this->input->post('edit_nama_sub_kriteria');
+		$nilai_sub_kriteria = $this->input->post('edit_nilai_sub_kriteria');
+
+		$data = array(
+			'kriteria_id' => $kriteria_id,
+			'kode_sub_kriteria' => $kode_sub_kriteria,
+			'nama_sub_kriteria' => $nama_sub_kriteria,
+			'nilai_sub_kriteria' => $nilai_sub_kriteria
+		);
+		
+
+		$where = array(
+			'id_sub_kriteria' => $id
+		);
+		
+		$this->Subkriteria_model->perbarui($where,$data,'subkriteria');
+		$response_array['status'] = 'success';
+		header('Content-Type: application/json');
+		echo json_encode($response_array);
+	}
 	
 
 	public function hapus($id)
