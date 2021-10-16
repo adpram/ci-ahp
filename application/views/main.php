@@ -19,57 +19,98 @@
 
 <body>
 	<div class="row m-2">
-		<div class="col-5">
-			<h4>Kriteria</h4>
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
-				data-bs-target="#tambahKriteriaModal">
-				tambah kriteria
-			</button>
+		<div class="col-5 pt-4">
+			<button class="btn btn-outline-success btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSaham">
+				<i class="fa fa-angle-double-right"></i> Saham
+			</button><br>
+			<div class="collapse table-responsive mb-3" id="collapseSaham">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
+					data-bs-target="#tambahSahamModal">
+					tambah saham
+				</button>
+	
+				<table class="table table-striped table-bordered nowrap" id="tbl-saham" style="width:100%">
+					<thead>
+						<th class="align-middle">Saham</th>
+						<th class="align-middle">Tanggal</th>
+						<th class="align-middle">Open</th>
+						<th class="align-middle">High</th>
+						<th class="align-middle">Low</th>
+						<th class="align-middle">Close</th>
+						<th class="align-middle">Open ke High</th>
+						<th class="align-middle">Open ke Low</th>
+						<th class="align-middle">Open ke Close</th>
+						<th class="align-middle">Volume</th>
+						<th class="align-middle">Market Cap</th>
+						<th class="align-middle">Aksi</th>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
 
-			<table class="table table-striped table-bordered nowrap" id="tbl-kriteria" style="width:100%">
-				<thead>
-					<th>Kode</th>
-					<th>Nama</th>
-					<th>Nilai</th>
-					<th>Aksi</th>
-				</thead>
-				<tbody></tbody>
-			</table>
-            <br>
-            <h4>Sub Kriteria</h4>
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
-				data-bs-target="#tambahSubKriteriaModal">
-				tambah sub kriteria
-			</button>
+			<button class="btn btn-outline-success btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKriteria">
+				<i class="fa fa-angle-double-right"></i> Kriteria
+			</button><br>
+			<div class="collapse table-responsive mb-3" id="collapseKriteria">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
+					data-bs-target="#tambahKriteriaModal">
+					tambah kriteria
+				</button>
+	
+				<table class="table table-striped table-bordered nowrap" id="tbl-kriteria" style="width:100%">
+					<thead>
+						<th>Kode</th>
+						<th>Nama</th>
+						<th>Nilai</th>
+						<th>Aksi</th>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
 
-			<table class="table table-striped table-bordered nowrap" id="tbl-sub-kriteria" style="width:100%">
-				<thead>
-					<th>Kriteria</th>
-					<th>Kode</th>
-					<th>Nama</th>
-					<th>Nilai</th>
-					<th>Aksi</th>
-				</thead>
-				<tbody></tbody>
-			</table>
-            <br>
-			<h4>Alternatif</h4>
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
-				data-bs-target="#tambahAlternatifModal">
-				tambah alternatif
-			</button>
+			<button class="btn btn-outline-success btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSubkriteria">
+				<i class="fa fa-angle-double-right"></i> Sub Kriteria
+			</button><br>
+			<div class="collapse table-responsive mb-3" id="collapseSubkriteria">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
+					data-bs-target="#tambahSubKriteriaModal">
+					tambah sub kriteria
+				</button>
+	
+				<table class="table table-striped table-bordered nowrap" id="tbl-sub-kriteria" style="width:100%">
+					<thead>
+						<th>Kriteria</th>
+						<th>Kode</th>
+						<th>Nama</th>
+						<th>Nilai</th>
+						<th>Aksi</th>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
 
-			<table class="table table-striped table-bordered nowrap" id="tbl-alternatif" style="width:100%">
-				<thead>
-					<th style="width:15%">Kode</th>
-					<th>Nama</th>
-					<th style="width:15%">Aksi</th>
-				</thead>
-				<tbody></tbody>
-			</table>
+			<button class="btn btn-outline-success btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAlternatif">
+				<i class="fa fa-angle-double-right"></i> Alternatif
+			</button><br>
+			<div class="collapse table-responsive mb-3" id="collapseAlternatif">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
+					data-bs-target="#tambahAlternatifModal">
+					tambah alternatif
+				</button>
+	
+				<table class="table table-striped table-bordered nowrap" id="tbl-alternatif" style="width:100%">
+					<thead>
+						<th style="width:15%">Kode</th>
+						<th>Nama</th>
+						<th style="width:15%">Aksi</th>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
 		</div>
 		<div class="col-7">
 			<div class="row mt-5">
@@ -87,6 +128,129 @@
 		</div>
 	</div>
 	<!-- Modal -->
+	<!-- SAHAM -->
+	<!-- simpan saham -->
+	<div class="modal fade" id="tambahSahamModal" tabindex="-1" aria-labelledby="tambahSahamModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="tambahSahamModalLabel">Tambah Saham</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<form class="form-horizontal" id="simpanSaham">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-6">
+								<label for="">Saham</label>
+								<input type="text" class="form-control" name="saham" placeholder="ANTM" required>
+							</div>
+							<div class="col-md-6">
+								<label for="">Tanggal</label>
+								<input type="date" class="form-control" name="tanggal_saham" value="2021-09-01">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="">Open</label>
+								<input type="number" min="1" class="form-control" name="open" required>
+							</div>
+							<div class="col-md-6">
+								<label for="">High</label>
+								<input type="number" min="1" class="form-control" name="high" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="">Low</label>
+								<input type="number" min="1" class="form-control" name="low" required>
+							</div>
+							<div class="col-md-6">
+								<label for="">Close</label>
+								<input type="number" min="1" class="form-control" name="close" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="">Volume</label>
+								<input type="text" class="form-control" id="nilai_volume" name="volume">
+							</div>
+							<div class="col-md-6">
+								<label for="">Market Cap</label>
+								<input type="text" class="form-control" id="nilai_market_cap" name="market_cap">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-success btn-sm">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- ubah saham -->
+	<div class="modal fade" id="ubahSahamModal" tabindex="-1" aria-labelledby="ubahSahamModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ubahSahamModalLabel">Ubah Saham</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<form class="form-horizontal" id="perbaruiSaham">
+					<div class="modal-body">
+						<input type="hidden" name="edit_id_saham" id="edit_id_saham">
+						<div class="row">
+							<div class="col-md-6">
+								<label for="">Saham</label>
+								<input type="text" class="form-control" name="edit_saham" id="edit_saham" placeholder="ANTM" required>
+							</div>
+							<div class="col-md-6">
+								<label for="">Tanggal</label>
+								<input type="date" class="form-control" name="edit_tanggal_saham" id="edit_tanggal_saham">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="">Open</label>
+								<input type="number" min="1" class="form-control" name="edit_open" id="edit_open" required>
+							</div>
+							<div class="col-md-6">
+								<label for="">High</label>
+								<input type="number" min="1" class="form-control" name="edit_high" id="edit_high" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="">Low</label>
+								<input type="number" min="1" class="form-control" name="edit_low" id="edit_low" required>
+							</div>
+							<div class="col-md-6">
+								<label for="">Close</label>
+								<input type="number" min="1" class="form-control" name="edit_close" id="edit_close" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label for="">Volume</label>
+								<input type="text" class="form-control" id="edit_nilai_volume" name="edit_volume">
+							</div>
+							<div class="col-md-6">
+								<label for="">Market Cap</label>
+								<input type="text" class="form-control" id="edit_nilai_market_cap" name="edit_market_cap">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-success btn-sm">Perbarui</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<!-- KRITERIA -->
 	<!-- simpan kriteria -->
 	<div class="modal fade" id="tambahKriteriaModal" tabindex="-1" aria-labelledby="tambahKriteriaModalLabel"
@@ -572,6 +736,17 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script type="text/javascript">
+        format_nominal_uang();
+		var tabel_saham = $('#tbl-saham').DataTable({
+			"responsive": true,
+			"serverSide": true,
+			"order": [],
+			"ajax": {
+				url: "<?= site_url('saham/data') ?>",
+				type: "POST"
+			},
+		});
+
 		var tabel_kriteria = $('#tbl-kriteria').DataTable({
 			"responsive": true,
 			"serverSide": true,
@@ -601,6 +776,185 @@
 				type: "POST"
 			},
 		});
+
+		function formatAngka(angka){
+			var number_string = angka.replace(/[^.\d]/g, '').toString(),
+                split   		= number_string.split('.'),
+                sisa     		= split[0].length % 3,
+                rupiah     		= split[0].substr(0, sisa),
+                ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+            if(ribuan){
+                separator = sisa ? ',' : '';
+                rupiah += separator + ribuan.join(',');
+            }
+            return rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        }
+
+		function format_nominal_uang(){
+			var nilai_volume = document.getElementById('nilai_volume');
+			nilai_volume.addEventListener('keyup', function(e){
+				nilai_volume.value = formatAngka(this.value);
+			});
+
+			var nilai_market_cap = document.getElementById('nilai_market_cap');
+			nilai_market_cap.addEventListener('keyup', function(e){
+				nilai_market_cap.value = formatAngka(this.value);
+			});
+
+			var edit_nilai_volume = document.getElementById('edit_nilai_volume');
+			edit_nilai_volume.addEventListener('keyup', function(e){
+				edit_nilai_volume.value = formatAngka(this.value);
+			});
+
+			var edit_nilai_market_cap = document.getElementById('edit_nilai_market_cap');
+			edit_nilai_market_cap.addEventListener('keyup', function(e){
+				edit_nilai_market_cap.value = formatAngka(this.value);
+			});
+		}
+
+		// SAHAM
+		$('#simpanSaham').on('submit', function (e) {
+			if (!e.isDefaultPrevented()) {
+
+				$.ajax({
+					url: "<?= site_url('saham/simpan') ?>",
+					type: "POST",
+					beforeSend: function () {
+						swal({
+							title: 'Tunggu',
+							text: 'Memproses data...',
+							buttons: false
+						})
+					},
+					data: $('#simpanSaham').serialize(),
+					dataType: "json",
+					success: function (data) {
+						swal({
+							title: 'Berhasil!',
+							text: 'Saham berhasil ditambahkan!',
+							icon: 'success'
+						}).then(function () {
+							$('#tambahSahamModal').modal('hide');
+							$('#tambahSahamModal form')[0].reset();
+							//datatable refresh
+							$('#tbl-saham').DataTable().ajax.reload();
+						});
+					},
+					error: function (e) {
+						console.log(e)
+						alert("Gagal, silahkan menghubungi IT");
+					}
+				});
+				return false;
+
+			}
+		});
+
+		function editSaham(id) {
+			$.ajax({
+				url: "saham/edit/" + id,
+				type: "GET",
+				dataType: "JSON",
+				success: function (data) {
+					$('#ubahSahamModal').modal('show');
+					$("#edit_id_saham").val(data.id_saham);
+					$("#edit_saham").val(data.saham);
+					$("#edit_tanggal_saham").val(data.tanggal);
+					$("#edit_open").val(data.open);
+					$("#edit_high").val(data.high);
+					$("#edit_low").val(data.low);
+					$("#edit_close").val(data.close);
+					$("#edit_nilai_volume").val(data.volume);
+					$("#edit_nilai_market_cap").val(data.market_cap);
+				},
+				error: function () {
+					alert("Gagal, silahkan menghubungi IT");
+				}
+			})
+		}
+
+		$('#perbaruiSaham').on('submit', function (e) {
+			if (!e.isDefaultPrevented()) {
+
+				$.ajax({
+					url: "<?= site_url('saham/perbarui') ?>",
+					type: "POST",
+					beforeSend: function () {
+						swal({
+							title: 'Tunggu',
+							text: 'Memproses data...',
+							buttons: false
+						})
+					},
+					data: $('#perbaruiSaham').serialize(),
+					dataType: "json",
+					success: function (data) {
+						swal({
+							title: 'Berhasil!',
+							text: 'Saham berhasil diperbarui!',
+							icon: 'success'
+						}).then(function () {
+							$('#ubahSahamModal').modal('hide');
+							$('#ubahSahamModal form')[0].reset();
+							$('#tbl-saham').DataTable().ajax.reload();
+						});
+					},
+					error: function (e) {
+						console.log(e)
+						alert("Gagal, silahkan menghubungi IT");
+					}
+				});
+				return false;
+
+			}
+		});
+
+		function hapusSaham(id) {
+			swal({
+				title: "Apakah anda yakin ?",
+				text: "Saham akan dihapus",
+				icon: "warning",
+				buttons: {
+					canceled: {
+						text: 'Cancel',
+						value: 'cancel',
+						className: 'swal-button btn-default'
+					},
+					deleted: {
+						text: 'Delete',
+						value: 'delete',
+						className: 'swal-button btn-danger'
+					}
+				},
+				dangerMode: true,
+			}).then((willDelete) => {
+				switch (willDelete) {
+					default:
+						swal("Saham aman");
+						break;
+					case 'delete':
+						$.ajax({
+							url: "saham/hapus/" + id,
+							dataType: "json",
+							type: "POST",
+							success: function (data) {
+								swal("Saham berhasil dihapus", {
+									icon: "success",
+								}).then(function () {
+									$('#tbl-saham').DataTable().ajax.reload();
+								});
+							},
+							error: function () {
+								swal({
+									text: 'Saham gagal dihapus!',
+									icon: 'error'
+								})
+							}
+						});
+						break;
+				}
+			});
+		}
 
 		// KRITERIA
 		$('#simpanKriteria').on('submit', function (e) {
