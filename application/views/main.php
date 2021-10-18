@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="<?= base_url('assets/font-awesome-4.7.0/css/font-awesome.min.css') ?>">
 	<link rel="stylesheet" href="<?= base_url('assets/select2/dist/css/select2.min.css') ?>">
 	<style>
-		.tbl-info-nilai-kriteria, .tbl-normalisasi, .tbl-matrix-consistency {
+		.tbl-info-nilai-kriteria, .tbl-normalisasi, .tbl-matrix-consistency, .tbl-nilai-kriteria, .tbl-konsistensi {
 			font-size: 12px !important
 		}
 		.ahp-note {
@@ -35,6 +35,10 @@
 			left : 1em;
 			color: #10ac84;
 		}
+
+		.div-range {
+			padding-top: 36px
+		}
 	</style>
 </head>
 
@@ -53,6 +57,7 @@
 	
 				<table class="table table-striped table-bordered nowrap" id="tbl-saham" style="width:100%">
 					<thead>
+						<th class="align-middle">Kode</th>
 						<th class="align-middle">Saham</th>
 						<th class="align-middle">Tanggal</th>
 						<th class="align-middle">Open</th>
@@ -112,26 +117,6 @@
 					<tbody></tbody>
 				</table>
 			</div>
-
-			<button class="btn btn-outline-success btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAlternatif">
-				<i class="fa fa-angle-double-right"></i> Alternatif
-			</button><br>
-			<div class="collapse table-responsive mb-3" id="collapseAlternatif">
-				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
-					data-bs-target="#tambahAlternatifModal">
-					tambah alternatif
-				</button>
-	
-				<table class="table table-striped table-bordered nowrap" id="tbl-alternatif" style="width:100%">
-					<thead>
-						<th style="width:15%">Kode</th>
-						<th>Nama</th>
-						<th style="width:15%">Aksi</th>
-					</thead>
-					<tbody></tbody>
-				</table>
-			</div>
 		</div>
 		<div class="col-7">
 			<div class="row mt-5">
@@ -152,11 +137,18 @@
 						<li>Eigin Value : mengalikan matriks perbandingan berpasangan dengan bobot prioritas (A)(Wt)</li>
 					</ul>
 				</div>
+				<!-- kriteria -->
 				<div class="row mt-2" id="div-proses-kriteria"></div>
 				<div class="row mt-2" id="div-proses-matriks-normalisasi"></div>
-				<div class="row mt-2" id="div-proses-matriks-konsistensi"></div>
+				<div class="mt-2" id="div-proses-matriks-konsistensi"></div>
 			</div>
 		</div>
+	</div>
+	<div class="row m-2">
+		<!-- ranking final -->
+		<div class="row mt-2 justify-content-center" id="div-ranking"></div>
+		<!-- subkriteria -->
+		<div class="row mt-2" id="div-proses-subkriteria"></div>
 	</div>
 	<!-- Modal -->
 	<!-- SAHAM -->
@@ -172,7 +164,11 @@
 				<form class="form-horizontal" id="simpanSaham">
 					<div class="modal-body">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-3">
+								<label for="">Kode</label>
+								<input type="text" class="form-control" name="kode_saham" placeholder="SO1" required>
+							</div>
+							<div class="col-md-3">
 								<label for="">Saham</label>
 								<input type="text" class="form-control" name="saham" placeholder="ANTM" required>
 							</div>
@@ -233,7 +229,11 @@
 					<div class="modal-body">
 						<input type="hidden" name="edit_id_saham" id="edit_id_saham">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-3">
+								<label for="">Kode</label>
+								<input type="text" class="form-control" name="edit_kode_saham" id="kode_saham" required>
+							</div>
+							<div class="col-md-3">
 								<label for="">Saham</label>
 								<input type="text" class="form-control" name="edit_saham" id="edit_saham" placeholder="ANTM" required>
 							</div>
@@ -685,88 +685,14 @@
 		</div>
 	</div>
 
-	<!-- ALTERNATIF -->
-	<!-- simpan alternatif -->
-	<div class="modal fade" id="tambahAlternatifModal" tabindex="-1" aria-labelledby="tambahAlternatifModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="tambahAlternatifModalLabel">Tambah Alternatif</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<form class="form-horizontal" id="simpanAlternatif">
-					<div class="modal-body">
-						<div class="row mb-1">
-							<div class="col-md-3">
-								<p>Kode</p>
-							</div>
-							<div class="col-md-9">
-								<input type="text" class="form-control" name="kode_alternatif" required>
-							</div>
-						</div>
-						<div class="row mb-1">
-							<div class="col-md-3">
-								<p>Nama</p>
-							</div>
-							<div class="col-md-9">
-								<input type="text" class="form-control" name="nama_alternatif" required>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-						<button type="submit" class="btn btn-success btn-sm">Simpan</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- ubah alternatif -->
-	<div class="modal fade" id="ubahAlternatifModal" tabindex="-1" aria-labelledby="ubahAlternatifModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="ubahAlternatifModalLabel">Ubah Alternatif</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<form class="form-horizontal" id="perbaruiAlternatif">
-					<div class="modal-body">
-						<input type="hidden" name="edit_id_alternatif" id="id_alternatif">
-						<div class="row mb-1">
-							<div class="col-md-3">
-								<p>Kode</p>
-							</div>
-							<div class="col-md-9">
-								<input type="text" class="form-control" name="edit_kode_alternatif" id="kode_alternatif"
-									required>
-							</div>
-						</div>
-						<div class="row mb-1">
-							<div class="col-md-3">
-								<p>Nama</p>
-							</div>
-							<div class="col-md-9">
-								<input type="text" class="form-control" name="edit_nama_alternatif" id="nama_alternatif"
-									required>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-						<button type="submit" class="btn btn-success btn-sm">Perbarui</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
 	<script src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
 	<script src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
 	<script src="<?= base_url('assets/select2/dist/js/select2.min.js') ?>"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script type="text/javascript">
+		var div_subkriteria = ""
+		var div_ranking = ""
         format_nominal_uang();
 		var tabel_saham = $('#tbl-saham').DataTable({
 			"responsive": true,
@@ -794,16 +720,6 @@
 			"order": [],
 			"ajax": {
 				url: "<?= site_url('subkriteria/data') ?>",
-				type: "POST"
-			},
-		});
-
-		var tabel_alternatif = $('#tbl-alternatif').DataTable({
-			"responsive": true,
-			"serverSide": true,
-			"order": [],
-			"ajax": {
-				url: "<?= site_url('alternatif/data') ?>",
 				type: "POST"
 			},
 		});
@@ -859,6 +775,32 @@
 			});
 		}
 
+		function singkat_angka(n) {
+			var format_angka = 0
+			var simbol = ''
+			if (n < 900) {
+				format_angka = (Number(n, 2)).toString();
+				simbol = '';
+			} else if (n < 900000) {
+				format_angka = (Number(n / 1000, 2)).toString();
+				simbol = 'rb';
+			} else if (n < 900000000) {
+				format_angka = (Number(n / 1000000, 2)).toString();
+				simbol = 'jt';
+			} else if (n < 900000000000) {
+				format_angka = (Number(n / 1000000000, 2)).toString();
+				simbol = 'M';
+			} else {
+				format_angka = (Number(n / 1000000000000, 2)).toString();
+				simbol = 'T';
+			}
+			
+			var str = "0"
+			var pisah = '.' + str.repeat(2);
+			result = format_angka.replace(pisah, format_angka)
+			return result + simbol;
+		}
+
 		// SAHAM
 		$('#simpanSaham').on('submit', function (e) {
 			if (!e.isDefaultPrevented()) {
@@ -905,6 +847,7 @@
 				success: function (data) {
 					$('#ubahSahamModal').modal('show');
 					$("#edit_id_saham").val(data.id_saham);
+					$("#kode_saham").val(data.kode_saham);
 					$("#edit_saham").val(data.saham);
 					$("#edit_tanggal_saham").val(data.tanggal);
 					$("#edit_open").val(data.open);
@@ -1340,146 +1283,6 @@
 			});
 		}
 
-		// ALTERNATIF
-		$('#simpanAlternatif').on('submit', function (e) {
-			if (!e.isDefaultPrevented()) {
-
-				$.ajax({
-					url: "<?= site_url('alternatif/simpan') ?>",
-					type: "POST",
-					beforeSend: function () {
-						swal({
-							title: 'Tunggu',
-							text: 'Memproses data...',
-							buttons: false
-						})
-					},
-					data: $('#simpanAlternatif').serialize(),
-					dataType: "json",
-					success: function (data) {
-						swal({
-							title: 'Berhasil!',
-							text: 'Alternatif berhasil ditambahkan!',
-							icon: 'success'
-						}).then(function () {
-							$('#tambahAlternatifModal').modal('hide');
-							$('#tambahAlternatifModal form')[0].reset();
-							//datatable refresh
-							$('#tbl-alternatif').DataTable().ajax.reload();
-						});
-					},
-					error: function (e) {
-						console.log(e)
-						alert("Gagal, silahkan menghubungi IT");
-					}
-				});
-				return false;
-
-			}
-		});
-
-		function editAlternatif(id) {
-			$.ajax({
-				url: "alternatif/edit/" + id,
-				type: "GET",
-				dataType: "JSON",
-				success: function (data) {
-					$('#ubahAlternatifModal').modal('show');
-					$("#id_alternatif").val(data.id_alternatif);
-					$("#kode_alternatif").val(data.kode_alternatif);
-					$("#nama_alternatif").val(data.nama_alternatif);
-					$("#nilai_alternatif").val(data.nilai_alternatif);
-				},
-				error: function () {
-					alert("Gagal, silahkan menghubungi IT");
-				}
-			})
-		}
-
-		$('#perbaruiAlternatif').on('submit', function (e) {
-			if (!e.isDefaultPrevented()) {
-
-				$.ajax({
-					url: "<?= site_url('alternatif/perbarui') ?>",
-					type: "POST",
-					beforeSend: function () {
-						swal({
-							title: 'Tunggu',
-							text: 'Memproses data...',
-							buttons: false
-						})
-					},
-					data: $('#perbaruiAlternatif').serialize(),
-					dataType: "json",
-					success: function (data) {
-						swal({
-							title: 'Berhasil!',
-							text: 'Alternatif berhasil diperbarui!',
-							icon: 'success'
-						}).then(function () {
-							$('#ubahAlternatifModal').modal('hide');
-							$('#ubahAlternatifModal form')[0].reset();
-							$('#tbl-alternatif').DataTable().ajax.reload();
-						});
-					},
-					error: function (e) {
-						console.log(e)
-						alert("Gagal, silahkan menghubungi IT");
-					}
-				});
-				return false;
-
-			}
-		});
-
-		function hapusAlternatif(id) {
-			swal({
-				title: "Apakah anda yakin ?",
-				text: "Alternatif akan dihapus",
-				icon: "warning",
-				buttons: {
-					canceled: {
-						text: 'Cancel',
-						value: 'cancel',
-						className: 'swal-button btn-default'
-					},
-					deleted: {
-						text: 'Delete',
-						value: 'delete',
-						className: 'swal-button btn-danger'
-					}
-				},
-				dangerMode: true,
-			}).then((willDelete) => {
-				switch (willDelete) {
-					default:
-						swal("Alternatif aman");
-						break;
-					case 'delete':
-						$.ajax({
-							url: "alternatif/hapus/" + id,
-							dataType: "json",
-							type: "POST",
-							success: function (data) {
-								console.log(data.status)
-								swal("Alternatif berhasil dihapus", {
-									icon: "success",
-								}).then(function () {
-									$('#tbl-alternatif').DataTable().ajax.reload();
-								});
-							},
-							error: function () {
-								swal({
-									text: 'Alternatif gagal dihapus!',
-									icon: 'error'
-								})
-							}
-						});
-						break;
-				}
-			});
-		}
-
 		// PROSES KRITERIA
 		function prosesKriteria() {
 			$.ajax({
@@ -1497,6 +1300,7 @@
 					swal.close()
 					matriksPerbandinganKriteria(data)
 					matriksNormalisasiKriteria(data)
+					prosesSubkriteria(data)
 				},
 				error: function () {
 					alert("Gagal, silahkan menghubungi IT");
@@ -1583,6 +1387,7 @@
 
 			// normalisasi
 			var tr_td_normalisasi = ""
+			let tr_td_nilai_kriteria = ""
 
 			let totals_normalisasi = (new Array(data.length)).fill(0)
 			let total_jumlah_normalisasi = 0
@@ -1593,6 +1398,10 @@
 				banyak_data = data.length
 				tr_td_normalisasi += '<tr>'
 				tr_td_normalisasi += '<td>' + x.kode_kriteria + '</td>'
+
+				tr_td_nilai_kriteria += '<tr>'
+				tr_td_nilai_kriteria += '<td>' + x.nama_kriteria + '</td>'
+
 				let jumlah_normalisasi = 0
 				for (let i in data) {
 					let y = data[i]
@@ -1614,6 +1423,9 @@
 				tr_td_normalisasi += '<td>' + prioritas_normalisasi + '</td>'
 				tr_td_normalisasi += '<td>' + eigen_value + '</td>'
 				tr_td_normalisasi += '</tr>'
+
+				tr_td_nilai_kriteria += '<td>' + prioritas_normalisasi + '</td>'
+				tr_td_nilai_kriteria += '</tr>'
 			}
 			let tfoot_normalisasi = ''
 			for (let x of totals_normalisasi) {
@@ -1645,10 +1457,15 @@
                     "</tbody>" +
 				"</table>"+
             "</div>");
+			$('#div-nilai-kriteria').html("<table class='table table-bordered border-success tbl-nilai-kriteria' style='width:100%'>" +
+				"<tr>" +
+					"<th colspan='2' style='text-align:center'>Nilai Kriteria</th>" +
+				"</tr>" +
+				tr_td_nilai_kriteria+				
+			"</table>");			
 		}
 
 		function matriksKonsistensiKriteria(banyak_data, total_eigen_value_normalisasi) {
-			console.log(banyak_data, total_eigen_value_normalisasi)
 			var ci = (total_eigen_value_normalisasi - banyak_data) / banyak_data - 1
 			var ri = 0
 			if (banyak_data == 1 || banyak_data == 2) {
@@ -1674,15 +1491,15 @@
 			}
 			var cr = ci / ri
 			var is_consistent = ""
-			if (cr <= 0, 1) {
+			if (cr <= 0,1) {
 				is_consistent = "KONSISTEN"
 			} else {
 				is_consistent = "Tidak Konsisten"
 			}
 			$('#div-proses-matriks-konsistensi').html("<div class='row table-responsive'>" +
 				"<p>Konsistensi</p>" +
-				"<div class='col-6'>" +
-                    "<table class='table table-bordered border-success' style='width:100%'>" +
+				"<div class='col-4'>" +
+                    "<table class='table table-bordered border-success tbl-konsistensi' style='width:100%'>" +
                         "<tr>" +
                             "<th>CI</th>" +
                             "<td>" + ci + "</td>" +
@@ -1700,8 +1517,9 @@
                     "</table>" +
                     "<p style='font-size:12px'>Jika nilai CR <= 0,1 maka matriks tersebut dikatakan konsisten<br>Apabila nilai CR > 0,1 maka matriks tersebut dikatakan tidak konsisten<br>Konsisten adalah kesetaraan nilai bobot yang diberikan antar kriteria-kriteria</p>" +
                 "</div>" +
-                "<div class='col-6'>" +
-                    "<table class='table table-bordered border-primary tbl-matrix-consistency' style='width:100%'>" +
+				"<div class='col-5 table-responsive' id='div-nilai-kriteria'></div>"+
+                "<div class='col-3'>" +
+                    "<table class='table table-bordered border-success tbl-matrix-consistency' style='width:100%'>" +
                         "<thead>" +
                             "<tr>" +
                                 "<th>Matrix Size</th>" +
@@ -1753,6 +1571,222 @@
                     "</table>" +
 				"</div>" +
             "</div>");
+		}
+
+		// PROSES SUBKRITERIA
+		function prosesSubkriteria(data){
+			for (let val of data) {
+				$.ajax({
+					url: "subkriteria/data_subkriteria/"+val.id_kriteria,
+					type: "GET",
+					dataType: "JSON",
+					success: function (response) {
+						dataSubKriteria(response)
+					},
+					error: function () {
+						alert("Gagal, silahkan menghubungi IT");
+					}
+				})
+			}
+		}
+
+		function dataSubKriteria(data){
+			var kode_kriteria = ""
+			var th_subkriteria = ""
+			var th_ranking_kriteria = ""
+			for (let x of data) {
+				kode_kriteria = x.kode_kriteria
+				th_ranking_kriteria = x.nama_kriteria
+				th_subkriteria += "<th>" + x.kode_sub_kriteria + "</th>"
+			}
+			
+			// matriks perbandingan
+			var tr_td_subkriteria = ""
+
+			let totals_subkriteria = (new Array(data.length)).fill(0)
+			for (let x of data) {
+				tr_td_subkriteria += '<tr>'
+				tr_td_subkriteria += '<td>' + x.kode_sub_kriteria + '</td>'
+				for (let i in data) {
+					let y = data[i]
+					let val = x.nilai_sub_kriteria / y.nilai_sub_kriteria
+					tr_td_subkriteria += '<td>' + val + '</td>'
+
+					totals_subkriteria[i] += parseFloat(val)
+				}
+				tr_td_subkriteria += '</tr>'
+			}
+
+			let tfoot_subkriteria = ''
+			for (let x of totals_subkriteria) {
+				tfoot_subkriteria += '<th>' + x + '</th>'
+			}
+
+			// normalisasi
+			var tr_td_subkriteria_normalisasi = ""
+			let totals_subkriteria_normalisasi = (new Array(data.length)).fill(0)
+			let total_jumlah_subkriteria_normalisasi = 0
+			let total_prioritas_subkriteria_normalisasi = 0
+			let total_eigen_value_subkriteria_normalisasi = 0
+			let banyak_data_subkriteria = 0
+			let tr_td_ranking_kriteria = ""
+
+			for (let [index_x, x] of data.entries()) {
+				banyak_data_subkriteria = data.length
+				tr_td_subkriteria_normalisasi += '<tr>'
+				tr_td_subkriteria_normalisasi += '<td>' + x.kode_sub_kriteria + '</td>'
+
+				let jumlah_subkriteria_normalisasi = 0
+
+				tr_td_ranking_kriteria += '<tr>'
+				tr_td_ranking_kriteria += '<td>' + x.kode_sub_kriteria + '</td>'
+				if ( x.persen == 1 ) {
+					if ( x.sub_kriteria_dua != 0 ) {
+						tr_td_ranking_kriteria += '<td>' + x.sub_kriteria_satu + ' - ' + x.sub_kriteria_dua + ' %</td>'
+					} else {
+						tr_td_ranking_kriteria += '<td>' + x.simbol + x.sub_kriteria_satu + ' %</td>'
+					}
+				} else {
+					if ( x.sub_kriteria_dua != 0 ) {
+						tr_td_ranking_kriteria += '<td>' + singkat_angka(x.sub_kriteria_satu) + ' - ' + singkat_angka(x.sub_kriteria_dua) + '</td>'
+					} else {
+						tr_td_ranking_kriteria += '<td>' + x.simbol + singkat_angka(x.sub_kriteria_satu) + '</td>'
+					}
+				}
+
+				for (let i in data) {
+					let y = data[i]
+
+					let val = (x.nilai_sub_kriteria / y.nilai_sub_kriteria) / totals_subkriteria[i]
+					tr_td_subkriteria_normalisasi += '<td>' + val + '</td>'
+
+					totals_subkriteria_normalisasi[i] += parseFloat(val)
+					jumlah_subkriteria_normalisasi += val
+				}
+
+				total_jumlah_subkriteria_normalisasi += jumlah_subkriteria_normalisasi
+				prioritas_subkriteria_normalisasi = jumlah_subkriteria_normalisasi / data.length
+				total_prioritas_subkriteria_normalisasi += prioritas_subkriteria_normalisasi
+				eigen_value_subkriteria = prioritas_subkriteria_normalisasi * totals_subkriteria[index_x]
+				total_eigen_value_subkriteria_normalisasi += eigen_value_subkriteria
+
+				tr_td_subkriteria_normalisasi += '<td>' + jumlah_subkriteria_normalisasi + '</td>'
+				tr_td_subkriteria_normalisasi += '<td>' + prioritas_subkriteria_normalisasi + '</td>'
+				tr_td_subkriteria_normalisasi += '<td>' + eigen_value_subkriteria + '</td>'
+				tr_td_subkriteria_normalisasi += '</tr>'
+
+				tr_td_ranking_kriteria += '<td>' + prioritas_subkriteria_normalisasi + '</td>'
+				tr_td_ranking_kriteria += '</tr>'
+
+			}
+			let tfoot_subkriteria_normalisasi = ''
+			for (let x of totals_subkriteria_normalisasi) {
+				tfoot_subkriteria_normalisasi += '<th>' + x + '</th>'
+			}
+			tfoot_subkriteria_normalisasi += '<th>' + total_jumlah_subkriteria_normalisasi + '</th>'
+			tfoot_subkriteria_normalisasi += '<th>' + total_prioritas_subkriteria_normalisasi + '</th>'
+			tfoot_subkriteria_normalisasi += '<th>' + total_eigen_value_subkriteria_normalisasi + '</th>'
+
+			// konsistensi
+			var ci_subkriteria = (total_eigen_value_subkriteria_normalisasi - banyak_data_subkriteria) / banyak_data_subkriteria - 1
+			var ri_subkriteria = 0
+			if (banyak_data_subkriteria == 1 || banyak_data_subkriteria == 2) {
+				ri_subkriteria = 0.00
+			} else if (banyak_data_subkriteria == 3) {
+				ri_subkriteria = 0.58
+			} else if (banyak_data_subkriteria == 4) {
+				ri_subkriteria = 0.90
+			} else if (banyak_data_subkriteria == 5) {
+				ri_subkriteria = 1.12
+			} else if (banyak_data_subkriteria == 6) {
+				ri_subkriteria = 1.24
+			} else if (banyak_data_subkriteria == 7) {
+				ri_subkriteria = 1.32
+			} else if (banyak_data_subkriteria == 8) {
+				ri_subkriteria = 1.41
+			} else if (banyak_data_subkriteria == 9) {
+				ri_subkriteria = 1.45
+			} else if (banyak_data_subkriteria == 10) {
+				ri_subkriteria = 1.49
+			} else {
+				ri_subkriteria = 0
+			}
+			var cr_subkriteria = ci_subkriteria / ri_subkriteria
+			var is_consistent_subkriteria = ""
+			if (cr_subkriteria <= 0,1) {
+				is_consistent_subkriteria = "KONSISTEN"
+			} else {
+				is_consistent_subkriteria = "Tidak Konsisten"
+			}
+			div_subkriteria += "<div class='col-md-5 mb-2 table-responsive'>" +
+				"<h4>Sub Kriteria "+kode_kriteria+"</h4>"+
+				"<p>Matriks Perbandingan Antar Kriteria</p>" +
+				"<table class='table table-bordered border-success' style='width:100%'>" +
+					"<thead>" +
+						"<tr>" +
+							"<th>Kode</th>" +
+							th_subkriteria+
+						"</tr>" +
+					"</thead>" +
+					"<tbody>" +
+						tr_td_subkriteria+
+						"<tr>" +
+							"<th>Total</th>" +
+							tfoot_subkriteria+
+						"</tr>" +
+					"</tbody>" +
+				"</table>"+
+				"<p>Konsistensi</p>" +
+				"<table class='table table-bordered border-success tbl-konsistensi' style='width:100%'>" +
+					"<tr>" +
+						"<th>CI</th>" +
+						"<td>" + ci_subkriteria + "</td>" +
+						"<td rowspan='2'></td>" +
+					"</tr>" +
+					"<tr>" +
+						"<th>RI</th>" +
+						"<td>" + ri_subkriteria + "</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<th>CR</th>" +
+						"<td>" + cr_subkriteria + "</td>" +
+						"<th>" + is_consistent_subkriteria + "</th>" +
+					"</tr>" +
+				"</table>" +
+			"</div>"+
+			"<div class='col-md-7 mb-2 table-responsive div-range'>"+
+				"<p>Normalisasi</p>" +
+				"<table class='table table-bordered border-success tbl-normalisasi' style='width:100%'>" +
+                    "<thead>" +
+                        "<tr>" +
+                            "<th>Kode</th>" +
+                            th_subkriteria +
+                            "<th>Jumlah</th>" +
+                            "<th>Prioritas</th>" +
+                            "<th>Eigen Value</th>" +
+                        "</tr>" +
+                    "</thead>" +
+                    "<tbody>" +
+                        tr_td_subkriteria_normalisasi +
+                        "<tr>" +
+                            "<th>Total</th>" +
+                            tfoot_subkriteria_normalisasi +
+                        "</tr>" +
+                    "</tbody>" +
+				"</table>"+
+			"</div><hr>"
+			$('#div-proses-subkriteria').html(div_subkriteria);
+
+			// nilai kriteria
+			div_ranking += "<div class='col-md-3 mt-4'>"+
+				"<table class='table table-bordered border-success tbl-nilai-kriteria' style='width:100%'>" +
+					"<tr>" +
+						"<th colspan='3' style='text-align:center'>"+th_ranking_kriteria+"</th>" +
+					"</tr>" +
+					tr_td_ranking_kriteria+				
+				"</table>"+
+			"</div>"
+			$('#div-ranking').html(div_ranking);
 		}
 	</script>
 </body>

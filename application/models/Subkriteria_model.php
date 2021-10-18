@@ -17,6 +17,10 @@ class Subkriteria_model extends CI_Model {
         return $data;
     }
 
+    public function data() {
+        return $this->db->get('subkriteria');
+    }
+
     var $table = "subkriteria";  
     var $order_column = array(null, "kode_sub_kriteria", null);  
     function make_query()  

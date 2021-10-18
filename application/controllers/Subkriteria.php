@@ -166,4 +166,12 @@ class Subkriteria extends CI_Controller {
 		echo json_encode($response_array);
 	}
 
+	public function data_subkriteria($id)
+	{
+		// $result = $this->Subkriteria_model->data()->result();
+		$where = array('kriteria_id' => $id);
+		$result = $this->Subkriteria_model->edit($where,'subkriteria')->result();
+		header('Content-Type: application/json');
+		echo json_encode($result);
+	}
 }

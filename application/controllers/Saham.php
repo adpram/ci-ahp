@@ -40,6 +40,7 @@ class Saham extends CI_Controller {
            foreach($fetch_data as $row)  
            {  
                 $sub_array = array();  
+                $sub_array[] = $row->kode_saham;  
                 $sub_array[] = $row->saham;  
                 $sub_array[] = date("d-m-Y", strtotime($row->tanggal));  
                 $sub_array[] = $row->open;  
@@ -67,6 +68,7 @@ class Saham extends CI_Controller {
 	public function simpan()
 	{
 		$saham = $this->input->post('saham');
+		$kode_saham = $this->input->post('kode_saham');
 		$tanggal_saham = $this->input->post('tanggal_saham');
 		$open = $this->input->post('open');
 		$high = $this->input->post('high');
@@ -80,6 +82,7 @@ class Saham extends CI_Controller {
 
 		$data = array(
 			'saham' => $saham,
+			'kode_saham' => $kode_saham,
 			'tanggal' => $tanggal_saham,
 			'open' => $open,
 			'high' => $high,
@@ -104,6 +107,7 @@ class Saham extends CI_Controller {
 		$saham = $this->Saham_model->edit($where,'saham')->result();
 		foreach ( $saham as $row ) {
 			$id_saham = $row->id_saham;
+			$kode_saham = $row->kode_saham;
 			$saham = $row->saham;
 			$tanggal = $row->tanggal;
 			$open = $row->open;
@@ -114,13 +118,14 @@ class Saham extends CI_Controller {
 			$market_cap = $row->market_cap;
 		}
 		header('Content-Type: application/json');
-		$result = array("id_saham" => $id_saham, "saham" => $saham, "tanggal" => $tanggal, "open" => $open, "high" => $high, "low" => $low, "close" => $close, "volume" => $volume, "market_cap" => $market_cap);
+		$result = array("id_saham" => $id_saham, "kode_saham" => $kode_saham, "saham" => $saham, "tanggal" => $tanggal, "open" => $open, "high" => $high, "low" => $low, "close" => $close, "volume" => $volume, "market_cap" => $market_cap);
 		echo json_encode($result);
 	}
 
     public function perbarui()
 	{
 		$id = $this->input->post('edit_id_saham');
+		$kode_saham = $this->input->post('edit_kode_saham');
 		$saham = $this->input->post('edit_saham');
 		$tanggal = $this->input->post('edit_tanggal_saham');
 		$open = $this->input->post('edit_open');
@@ -134,6 +139,7 @@ class Saham extends CI_Controller {
         $open_ke_close = ($close-$open)/$close*100;
 
 		$data = array(
+			'kode_saham' => $kode_saham,
 			'saham' => $saham,
 			'tanggal' => $tanggal,
 			'open' => $open,
