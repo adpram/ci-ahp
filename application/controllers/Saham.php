@@ -171,5 +171,12 @@ class Saham extends CI_Controller {
         $response_array['status'] = 'success';
 		echo json_encode($response_array);
 	}
+
+	public function dataSaham()
+	{
+		$result = $this->Saham_model->dataSaham()->result();
+		header('Content-Type: application/json');
+		echo json_encode($result);
+	}
     
 }

@@ -11,8 +11,11 @@
 	<link rel="stylesheet" href="<?= base_url('assets/font-awesome-4.7.0/css/font-awesome.min.css') ?>">
 	<link rel="stylesheet" href="<?= base_url('assets/select2/dist/css/select2.min.css') ?>">
 	<style>
-		.tbl-info-nilai-kriteria, .tbl-normalisasi, .tbl-matrix-consistency, .tbl-nilai-kriteria, .tbl-konsistensi {
+		.tbl-info-nilai-kriteria, .tbl-normalisasi, .tbl-matrix-consistency, .tbl-nilai-kriteria, .tbl-konsistensi, .tbl-hasil-akhir {
 			font-size: 12px !important
+		}
+		.tbl-alternatif {
+			font-size: 10px !important
 		}
 		.ahp-note {
 			font-size: 12px
@@ -38,6 +41,14 @@
 
 		.div-range {
 			padding-top: 36px
+		}
+
+		.div-hasil-akhir {
+			border-left: 6px solid #f7b731;
+			border-top: 1px solid #ffda79;
+			border-right: 1px solid #ffda79;
+			border-bottom: 1px solid #ffda79;
+			background-color: #f7f1e3;
 		}
 	</style>
 </head>
@@ -146,7 +157,10 @@
 	</div>
 	<div class="row m-2">
 		<!-- ranking final -->
-		<div class="row mt-2 justify-content-center" id="div-ranking"></div>
+		<div class="row mt-2 justify-content-center" id="div-nilai-semua-kriteria"></div>
+		<div class="row mt-2 mb-3" id="div-ranking">
+			
+		</div>
 		<!-- subkriteria -->
 		<div class="row mt-2" id="div-proses-subkriteria"></div>
 	</div>
@@ -518,7 +532,7 @@
 								</div>
 								<div class="col-md-4">
 									<label for="">Nominal 2</label>
-									<input type="text" class="form-control" name="sub_kriteria_dua" id="sub_kriteria_dua">
+									<input type="text" class="form-control" name="sub_kriteria_dua" id="sub_kriteria_dua" data-bs-toggle="tooltip" data-bs-placement="top" title="Nominal 2 harus lebih besar nilainya dari Nominal 1">
 								</div>
 								<div class="col-md-2 pt-4">
 									<input type="checkbox" name="persen" id="persen" value=1>
@@ -623,7 +637,7 @@
 								</div>
 								<div class="col-md-4">
 									<label for="">Nominal 2</label>
-									<input type="text" class="form-control" name="edit_sub_kriteria_dua" id="edit_sub_kriteria_dua">
+									<input type="text" class="form-control" name="edit_sub_kriteria_dua" id="edit_sub_kriteria_dua" data-bs-toggle="tooltip" data-bs-placement="top" title="Nominal 2 harus lebih besar nilainya dari Nominal 1">
 								</div>
 								<div class="col-md-2 pt-4">
 									<input type="checkbox" name="edit_persen" id="edit_persen" value=1>
@@ -693,6 +707,9 @@
 	<script type="text/javascript">
 		var div_subkriteria = ""
 		var div_ranking = ""
+		var tblPerhitungan = []
+		var tblKriteriaPertama = []
+		var hasilRanking = []
         format_nominal_uang();
 		var tabel_saham = $('#tbl-saham').DataTable({
 			"responsive": true,
@@ -725,7 +742,8 @@
 		});
 
 		function formatAngka(angka){
-			var number_string = angka.replace(/[^.\d]/g, '').toString(),
+			if ( angka.indexOf("-") !== -1 ) { return angka};
+			var number_string = angka.replace(/[^-.\d]/g, '').toString(),
                 split   		= number_string.split('.'),
                 sisa     		= split[0].length % 3,
                 rupiah     		= split[0].substr(0, sisa),
@@ -1160,7 +1178,6 @@
 				dataType: "JSON",
 				success: function (data) {
 					$('#ubahSubKriteriaModal').modal('show');
-					console.log("edit subkriteria", data)
 					$("#ubahKriteria").select2({
 						dropdownParent: $("#ubahSubKriteriaModal"),
 						ajax: {
@@ -1218,7 +1235,7 @@
 					success: function (data) {
 						swal({
 							title: 'Berhasil!',
-							text: 'Kriteria berhasil diperbarui!',
+							text: 'Sub Kriteria berhasil diperbarui!',
 							icon: 'success'
 						}).then(function () {
 							$('#ubahSubKriteriaModal').modal('hide');
@@ -1299,8 +1316,17 @@
 				success: function (data) {
 					swal.close()
 					matriksPerbandinganKriteria(data)
-					matriksNormalisasiKriteria(data)
-					prosesSubkriteria(data)
+					prosesNormalisasi(data).then(dataPerhitungan => {
+						tblKriteriaPertama = dataPerhitungan 
+						matriksNormalisasiKriteria(data)
+					})
+					prosesSubkriteria(data).then(dataPerhitungan => {
+						tblPerhitungan = dataPerhitungan // tk gwe global si tblPerhitungan ben ra kakean parameter nk function turunane
+						prosesRankingAwal(data).then(dataRanking => {
+							hasilRanking = dataRanking
+							prosesRanking(data)
+						})
+					})					
 				},
 				error: function () {
 					alert("Gagal, silahkan menghubungi IT");
@@ -1356,7 +1382,14 @@
             "</div>");
 		}
 
+		function prosesNormalisasi(data){// untuk ambil nilai kriteria
+			return new Promise(async (resolve, reject) => {
+				resolve(matriksNormalisasiKriteria(data))
+			})
+		}
+
 		function matriksNormalisasiKriteria(data) {
+			var returned = []
 
 			var th = ""
 			for (i = 0; i < data.length; i++) {
@@ -1426,6 +1459,9 @@
 
 				tr_td_nilai_kriteria += '<td>' + prioritas_normalisasi + '</td>'
 				tr_td_nilai_kriteria += '</tr>'
+
+				returned.push({ nama_kriteria:  x.nama_kriteria, nilai: prioritas_normalisasi })
+
 			}
 			let tfoot_normalisasi = ''
 			for (let x of totals_normalisasi) {
@@ -1462,7 +1498,8 @@
 					"<th colspan='2' style='text-align:center'>Nilai Kriteria</th>" +
 				"</tr>" +
 				tr_td_nilai_kriteria+				
-			"</table>");			
+			"</table>");	
+			return returned
 		}
 
 		function matriksKonsistensiKriteria(banyak_data, total_eigen_value_normalisasi) {
@@ -1575,22 +1612,38 @@
 
 		// PROSES SUBKRITERIA
 		function prosesSubkriteria(data){
-			for (let val of data) {
+			return new Promise(async (resolve, reject) => {
+				let result = []
+				for (let val of data) {
+					let res = await prosesSubkriteriaAjax(val)
+					for (let el of res) {
+						result.push(el)
+					}
+				}
+
+				resolve(result)
+			})
+		}
+
+		function prosesSubkriteriaAjax(val) {
+			return new Promise((resolve, reject) => {
 				$.ajax({
 					url: "subkriteria/data_subkriteria/"+val.id_kriteria,
 					type: "GET",
 					dataType: "JSON",
 					success: function (response) {
-						dataSubKriteria(response)
+						resolve(dataSubKriteria(response))
 					},
 					error: function () {
-						alert("Gagal, silahkan menghubungi IT");
+						reject("Gagal, silahkan menghubungi IT");
 					}
 				})
-			}
+			})
+			
 		}
 
 		function dataSubKriteria(data){
+			var returned = []
 			var kode_kriteria = ""
 			var th_subkriteria = ""
 			var th_ranking_kriteria = ""
@@ -1599,8 +1652,7 @@
 				th_ranking_kriteria = x.nama_kriteria
 				th_subkriteria += "<th>" + x.kode_sub_kriteria + "</th>"
 			}
-			
-			// matriks perbandingan
+
 			var tr_td_subkriteria = ""
 
 			let totals_subkriteria = (new Array(data.length)).fill(0)
@@ -1678,6 +1730,7 @@
 				tr_td_ranking_kriteria += '<td>' + prioritas_subkriteria_normalisasi + '</td>'
 				tr_td_ranking_kriteria += '</tr>'
 
+				returned.push({ kode_sub_kriteria:  x.kode_sub_kriteria, nilai: prioritas_subkriteria_normalisasi })
 			}
 			let tfoot_subkriteria_normalisasi = ''
 			for (let x of totals_subkriteria_normalisasi) {
@@ -1714,7 +1767,7 @@
 			var cr_subkriteria = ci_subkriteria / ri_subkriteria
 			var is_consistent_subkriteria = ""
 			if (cr_subkriteria <= 0,1) {
-				is_consistent_subkriteria = "KONSISTEN"
+				is_consistent_subkriteria = "KONSISTEN"				
 			} else {
 				is_consistent_subkriteria = "Tidak Konsisten"
 			}
@@ -1786,7 +1839,194 @@
 					tr_td_ranking_kriteria+				
 				"</table>"+
 			"</div>"
-			$('#div-ranking').html(div_ranking);
+			$('#div-nilai-semua-kriteria').html(div_ranking);
+
+			return returned
+		}
+
+		// PROSES RANKING
+		function prosesRankingAwal(data){
+			return new Promise((resolve, reject) => {
+				resolve(prosesRanking(data))
+			})
+		}
+
+		function prosesRanking(data){
+			var returned = []
+			$.ajax({
+				url: "saham/dataSaham/",
+				type: "GET",
+				dataType: "JSON",
+				success: function (response) {
+					
+					var th_alternatif = ""
+					var th_hasil_akhir = ""
+					for (i = 0; i < data.length; i++) {
+						th_alternatif += "<th class='align-middle'>" + data[i].nama_kriteria + "</th>"
+					}
+					th_hasil_akhir = th_alternatif
+					th_hasil_akhir += "<th class='align-middle'>Total</th>"
+					th_hasil_akhir += "<th class='align-middle'>Ranking</th>"
+
+					var tr_td_alternatif = ""
+					var tr_td_hasil_akhir = ""
+					var open_ke_high_final = 0
+					mergeWithHasilAkhir(response).then(data => {
+						for ( let [index, x] of data.entries() ) {
+							tr_td_alternatif += "<tr>"
+							tr_td_alternatif += "<td>"+ x.saham +"</td>"
+							tr_td_alternatif += "<td>"+ x.open_ke_high +" %</td>"
+							tr_td_alternatif += "<td>"+ x.open_ke_low +" %</td>"
+							tr_td_alternatif += "<td>"+ x.open_ke_close +" %</td>"
+							tr_td_alternatif += "<td>"+ singkat_angka(x.volume) +"</td>"
+							tr_td_alternatif += "<td>"+ singkat_angka(x.market_cap) +"</td>"
+							tr_td_alternatif += "</tr>"
+							
+							if ( ranking(hasilRanking)[index] == 1 ) {
+								tr_td_hasil_akhir += "<tr class='table-success'>"
+							} else {
+								tr_td_hasil_akhir += "<tr>"
+							}
+							tr_td_hasil_akhir += "<td>"+ x.saham +"</td>"
+							tr_td_hasil_akhir += "<td>"+ x.kriteria_1 +"</td>" 
+							tr_td_hasil_akhir += "<td>"+ x.kriteria_2 +"</td>"
+							tr_td_hasil_akhir += "<td>"+ x.kriteria_3 +"</td>"
+							tr_td_hasil_akhir += "<td>"+ x.kriteria_4 +"</td>"
+							tr_td_hasil_akhir += "<td>"+ x.kriteria_5 +"</td>"
+							let total_kriteria = x.kriteria_1 + x.kriteria_2 + x.kriteria_3 + x.kriteria_4 + x.kriteria_5
+							tr_td_hasil_akhir += "<td>"+ total_kriteria +"</td>"
+							returned.push({ hasil_ranking:  total_kriteria })						
+							tr_td_hasil_akhir += "<td>"+ranking(hasilRanking)[index]+"</td>"
+							tr_td_hasil_akhir += "</tr>"
+						}
+						$('#div-ranking').html("<div class='col-md-4 table-responsive pt-3'>"+
+							"<h4>Alternatif</h4>"+
+							"<table class='table table-bordered border-success tbl-alternatif' style='width:100%'>" +
+								"<thead>"+
+									"<tr>"+
+										"<th></th>"+
+										th_alternatif+
+									"</tr>"+
+								"</thead>"+
+								"<tbody>"+
+									tr_td_alternatif+
+								"</tbody>"+
+							"</table>"+
+						"</div>"+
+						"<div class='col-md-8 div-hasil-akhir pt-3 table-responsive'>"+
+							"<h4>Hasil Akhir</h4>"+	
+							"<table class='table table-bordered border-success tbl-hasil-akhir' style='width:100%'>" +
+								"<thead>"+
+									"<tr>"+
+										"<th></th>"+
+										th_hasil_akhir+
+									"</tr>"+
+								"</thead>"+
+								"<tbody>"+
+									tr_td_hasil_akhir+
+								"</tbody>"+
+							"</table>"+	
+						"</div>");
+					})
+					
+				},
+				error: function () {
+					alert("Gagal, silahkan menghubungi IT");
+				}
+			})
+			return returned
+		}
+
+		function mergeWithHasilAkhir(response) {
+			let requests = []
+
+			let criterias = [
+				['kriteria_1', 1],
+				['kriteria_2', 2],
+				['kriteria_3', 3],
+				['kriteria_4', 4],
+				['kriteria_5', 5],
+			]
+
+			for (let obj of response) {
+				let res = [obj.open_ke_high, obj.open_ke_low, obj.open_ke_close, obj.volume, obj.market_cap]
+				requests.push(mergeColumn(obj, criterias, res))
+			}
+
+			return Promise.all(requests)
+		} 
+
+		async function mergeColumn(obj, criterias, res) {
+			for (let [index,c] of criterias.entries()) {
+				let columnName = c[0]
+				let kriteria_id = c[1]
+
+				obj[columnName] = await dataHasilAkhir(res[index], kriteria_id)	
+			}
+
+			return obj
+		}
+
+		function dataHasilAkhir(nilai, kriteria_id){
+			// x = kui object asli teko database dataSaham
+			return new Promise((resolve, reject) => {
+				$.ajax({
+					url: "subkriteria/data_subkriteria/"+kriteria_id,
+					type: "GET",
+					dataType: "JSON",
+					success: function (response) {
+						for (let row of response) {
+							if ( !row.simbol && parseInt(nilai) >= parseInt(row.sub_kriteria_satu) && parseInt(nilai) <= parseInt(row.sub_kriteria_dua) ) { // diantara
+								return resolve(hitungNilai(row.nama_kriteria, row.kode_sub_kriteria))
+							} else if ( row.simbol == '>' && parseInt(nilai) > parseInt(row.sub_kriteria_satu) ) { // lebih dari
+								return resolve(hitungNilai(row.nama_kriteria, row.kode_sub_kriteria))
+							} else if ( row.simbol == '<' && parseInt(nilai) < parseInt(row.sub_kriteria_satu) ) { // kurang dari
+								return resolve(hitungNilai(row.nama_kriteria, row.kode_sub_kriteria))
+							}							
+						}
+						resolve(response[0].kode_sub_kriteria) 
+					},
+					error: function () {
+						reject("Gagal, silahkan menghubungi IT")
+					}
+				})
+			})
+		}
+
+		function hitungNilai(kriteria, kode) {
+			let pengali = ambilNilai(tblPerhitungan, kode)
+			let kriteria_awal = ambilKriteria(tblKriteriaPertama, kriteria)
+			return kriteria_awal * pengali
+		}
+
+		function ambilNilai(sumberData, kode) {
+			let found = sumberData.find(r => r.kode_sub_kriteria == kode)
+
+			if ( ! found) {
+				return 0 // ganti default value e (tpi kyo e gamungkin nek sampek not found)
+			}
+
+			return found.nilai
+		}
+
+		function ambilKriteria(sumberData, nama) {
+			let found = sumberData.find(r => r.nama_kriteria == nama)
+
+			if ( ! found) {
+				return 0 // ganti default value e (tpi kyo e gamungkin nek sampek not found)
+			}
+
+			return found.nilai
+		}
+
+		function ranking(data) {
+			let result = []
+			for ( let x of data ) {
+				result.push(x.hasil_ranking)
+			}
+			var sorted = result.slice().sort(function(a,b){return b-a})
+			var ranks = result.map(function(v){ return sorted.indexOf(v)+1 });
+			return ranks
 		}
 	</script>
 </body>

@@ -59,5 +59,9 @@ class Saham_model extends CI_Model {
         $this->db->where($where);
         $this->db->delete($table);
     }
+
+    public function dataSaham() {
+        return $this->db->get('saham');
+    }
 }
 ?>
