@@ -11,7 +11,7 @@
  Target Server Version : 100411
  File Encoding         : 65001
 
- Date: 18/10/2021 23:13:25
+ Date: 21/10/2021 13:25:33
 */
 
 SET NAMES utf8mb4;
@@ -80,7 +80,7 @@ CREATE TABLE `subkriteria`  (
   `persen` tinyint(255) NULL DEFAULT 0,
   `nilai_sub_kriteria` int(255) NOT NULL,
   PRIMARY KEY (`id_sub_kriteria`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of subkriteria
@@ -88,9 +88,9 @@ CREATE TABLE `subkriteria`  (
 INSERT INTO `subkriteria` VALUES (18, 1, 'A01', '<', 10, 0, 1, 1);
 INSERT INTO `subkriteria` VALUES (19, 1, 'A02', '', 10, 25, 1, 3);
 INSERT INTO `subkriteria` VALUES (21, 1, 'A03', '>', 25, 0, 1, 5);
-INSERT INTO `subkriteria` VALUES (22, 2, 'B01', '<', -5, 0, 1, 5);
-INSERT INTO `subkriteria` VALUES (23, 2, 'B02', '', -5, 10, 1, 3);
-INSERT INTO `subkriteria` VALUES (24, 2, 'B03', '>', -10, 0, 1, 1);
+INSERT INTO `subkriteria` VALUES (22, 2, 'B01', '>', -5, 0, 1, 5);
+INSERT INTO `subkriteria` VALUES (23, 2, 'B02', '', -10, -5, 1, 3);
+INSERT INTO `subkriteria` VALUES (24, 2, 'B03', '<', -10, 0, 1, 1);
 INSERT INTO `subkriteria` VALUES (25, 3, 'C01', '<', 10, 0, 1, 3);
 INSERT INTO `subkriteria` VALUES (26, 3, 'C02', '', 10, 25, 1, 5);
 INSERT INTO `subkriteria` VALUES (27, 3, 'C03', '>', 25, 0, 1, 7);

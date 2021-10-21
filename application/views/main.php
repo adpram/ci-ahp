@@ -155,7 +155,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row m-2">
+	<div class="row m-2" id="final-parent-div">
 		<!-- ranking final -->
 		<div class="row mt-2 justify-content-center" id="div-nilai-semua-kriteria"></div>
 		<div class="row mt-2 mb-3" id="div-ranking">
@@ -1528,10 +1528,17 @@
 			}
 			var cr = ci / ri
 			var is_consistent = ""
+			console.log(typeof cr)
 			if (cr <= 0,1) {
 				is_consistent = "KONSISTEN"
 			} else {
 				is_consistent = "Tidak Konsisten"
+				swal({
+					title: 'CR tidak konsisten!',
+					text: 'Nilai Consistency ratio lebih dari 0,1. Perbaiki nilai kriteria',
+					icon: 'error'
+				})
+				$('#final-parent-div').fadeOut()
 			}
 			$('#div-proses-matriks-konsistensi').html("<div class='row table-responsive'>" +
 				"<p>Konsistensi</p>" +
@@ -1767,9 +1774,15 @@
 			var cr_subkriteria = ci_subkriteria / ri_subkriteria
 			var is_consistent_subkriteria = ""
 			if (cr_subkriteria <= 0,1) {
-				is_consistent_subkriteria = "KONSISTEN"				
+				is_consistent_subkriteria = "KONSISTEN"
 			} else {
 				is_consistent_subkriteria = "Tidak Konsisten"
+				swal({
+					title: 'CR tidak konsisten!',
+					text: 'Nilai Consistency ratio lebih dari 0,1. Perbaiki nilai sub kriteria',
+					icon: 'error'
+				})
+				$('#final-parent-div').fadeOut()		
 			}
 			div_subkriteria += "<div class='col-md-5 mb-2 table-responsive'>" +
 				"<h4>Sub Kriteria "+kode_kriteria+"</h4>"+
