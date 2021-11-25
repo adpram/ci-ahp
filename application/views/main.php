@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>AHP Saham</title>
 	<link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css" />
+	<link rel="stylesheet" href="<?= base_url('assets/dataTable/css/jquery.dataTables.min.css') ?>">
 	<link rel="stylesheet" href="<?= base_url('assets/font-awesome-4.7.0/css/font-awesome.min.css') ?>">
 	<link rel="stylesheet" href="<?= base_url('assets/select2/dist/css/select2.min.css') ?>">
 	<style>
@@ -702,8 +702,8 @@
 	<script src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
 	<script src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
 	<script src="<?= base_url('assets/select2/dist/js/select2.min.js') ?>"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="<?= base_url('assets/dataTable/js/jquery.dataTables.min.js') ?>"></script>
+	<script src="<?= base_url('assets/sweetalert/sweetalert.min.js') ?>"></script>
 	<script type="text/javascript">
 		var div_subkriteria = ""
 		var div_ranking = ""
