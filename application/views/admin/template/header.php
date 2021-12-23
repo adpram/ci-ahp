@@ -96,7 +96,7 @@
 				</ul>
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item dropdown d-none d-lg-block user-dropdown">
-						<a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+						<a class="nav-link" id="UserDropdown" role="button" href="#" data-bs-toggle="dropdown" aria-expanded="false">
 							<img class="img-xs rounded-circle" src="<?= base_url('assets/admin/images/user.jpg') ?>"
 								alt="Profile image">
 						</a>
