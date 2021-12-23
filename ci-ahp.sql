@@ -4,14 +4,14 @@
  Source Server         : localhost-mysql
  Source Server Type    : MySQL
  Source Server Version : 100411
- Source Host           : localhost:3306
+ Source Host           : 127.0.0.1:3306
  Source Schema         : ci-ahp
 
  Target Server Type    : MySQL
  Target Server Version : 100411
  File Encoding         : 65001
 
- Date: 21/10/2021 13:25:33
+ Date: 23/12/2021 16:43:44
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `kriteria`  (
   `nama_kriteria` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nilai_kriteria` int(255) NOT NULL,
   PRIMARY KEY (`id_kriteria`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of kriteria
@@ -37,6 +37,22 @@ INSERT INTO `kriteria` VALUES (2, 'K02', 'Jarak berapa persen dari open ke low',
 INSERT INTO `kriteria` VALUES (3, 'K03', 'Jarak berapa persen dari open ke close', 3);
 INSERT INTO `kriteria` VALUES (4, 'K04', 'Volume transaksi', 5);
 INSERT INTO `kriteria` VALUES (5, 'K05', 'Market Cap', 7);
+
+-- ----------------------------
+-- Table structure for pengguna
+-- ----------------------------
+DROP TABLE IF EXISTS `pengguna`;
+CREATE TABLE `pengguna`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pengguna
+-- ----------------------------
+INSERT INTO `pengguna` VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e');
 
 -- ----------------------------
 -- Table structure for saham
@@ -57,7 +73,7 @@ CREATE TABLE `saham`  (
   `open_ke_low` double(10, 3) NULL DEFAULT NULL,
   `open_ke_close` double(10, 3) NULL DEFAULT NULL,
   PRIMARY KEY (`id_saham`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of saham
@@ -80,7 +96,7 @@ CREATE TABLE `subkriteria`  (
   `persen` tinyint(255) NULL DEFAULT 0,
   `nilai_sub_kriteria` int(255) NOT NULL,
   PRIMARY KEY (`id_sub_kriteria`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of subkriteria

@@ -84,5 +84,14 @@ class Subkriteria_model extends CI_Model {
         $this->db->where($where);
         $this->db->delete($table);
     }
+
+        
+    // new main
+    function dataMain(){
+        $this->db->select('subkriteria.*, kriteria.kode_kriteria, kriteria.nama_kriteria');  
+        $this->db->from('subkriteria');
+        $this->db->join('kriteria', 'kriteria.id_kriteria = subkriteria.kriteria_id', 'left');
+		return $query = $this->db->get()->result();		
+	}
 }
 ?>

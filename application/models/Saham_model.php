@@ -63,5 +63,11 @@ class Saham_model extends CI_Model {
     public function dataSaham() {
         return $this->db->get('saham');
     }
+
+
+    // new main
+    function dataMain(){
+		return $query = $this->db->get('saham')->result();		
+	}
 }
 ?>

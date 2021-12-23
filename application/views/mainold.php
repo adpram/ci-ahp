@@ -6,32 +6,41 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>AHP Saham</title>
+	<link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('assets/dataTable/css/jquery.dataTables.min.css') ?>">
 	<link rel="stylesheet" href="<?= base_url('assets/font-awesome-4.7.0/css/font-awesome.min.css') ?>">
-	<link href="<?= base_url('assets/css/bootstrap4.css') ?>" rel="stylesheet">
-	<link href="<?= base_url('assets/css/swiper.css') ?>" rel="stylesheet">
-	<link href="<?= base_url('assets/css/magnific-popup.css') ?>" rel="stylesheet">
 	<link rel="stylesheet" href="<?= base_url('assets/select2/dist/css/select2.min.css') ?>">
-	<link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
 	<style>
-		th {
-			text-align: center;
-			background-color: #34495e;
-			color: white;
-		}
-
-		td {
-			text-align: center;
-			color: white;
-		}
-
-		#black-table > thead > tr > th {
+		.tbl-info-nilai-kriteria, .tbl-normalisasi, .tbl-matrix-consistency, .tbl-nilai-kriteria, .tbl-konsistensi, .tbl-hasil-akhir {
 			font-size: 12px !important
 		}
-		#black-table > tbody > tr > td {
-			color: black;
-			font-size: 10px !important;
-			padding: 0;
-			margin: 0;
+		.tbl-alternatif {
+			font-size: 10px !important
+		}
+		.ahp-note {
+			font-size: 12px
+		}
+		ul.note-list {
+			border: solid 2px #10ac84;
+			border-radius: 5px;
+			padding: 0.5em 1em 0.5em 2.3em;
+			position: relative;
+		}
+		ul.note-list li {
+			line-height: 1.5;
+			padding: 0.5em 0;
+			list-style-type: none!important;
+		}
+		ul.note-list li:before {
+			font-family: FontAwesome;
+			content: "\f138";
+			position: absolute;
+			left : 1em;
+			color: #10ac84;
+		}
+
+		.div-range {
+			padding-top: 36px
 		}
 
 		.div-hasil-akhir {
@@ -41,223 +50,120 @@
 			border-bottom: 1px solid #ffda79;
 			background-color: #f7f1e3;
 		}
-		.tbl-hasil-akhir > tbody > tr > td {
-			color: black;
-			font-size: 12px !important
-		}
 	</style>
 </head>
 
-<body data-spy="scroll" data-target=".fixed-top">
-	<!-- Preloader -->
-	<div class="spinner-wrapper">
-		<div class="spinner">
-			<div class="bounce1"></div>
-			<div class="bounce2"></div>
-			<div class="bounce3"></div>
+<body>
+	<div class="row m-2">
+		<div class="col-5 pt-4">
+			<button class="btn btn-outline-success btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSaham">
+				<i class="fa fa-angle-double-right"></i> Saham
+			</button><br>
+			<div class="collapse table-responsive mb-3" id="collapseSaham">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
+					data-bs-target="#tambahSahamModal">
+					tambah saham
+				</button>
+	
+				<table class="table table-striped table-bordered nowrap" id="tbl-saham" style="width:100%">
+					<thead>
+						<th class="align-middle">Kode</th>
+						<th class="align-middle">Saham</th>
+						<th class="align-middle">Tanggal</th>
+						<th class="align-middle">Open</th>
+						<th class="align-middle">High</th>
+						<th class="align-middle">Low</th>
+						<th class="align-middle">Close</th>
+						<th class="align-middle">Open ke High</th>
+						<th class="align-middle">Open ke Low</th>
+						<th class="align-middle">Open ke Close</th>
+						<th class="align-middle">Volume</th>
+						<th class="align-middle">Market Cap</th>
+						<th class="align-middle">Aksi</th>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+
+			<button class="btn btn-outline-success btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKriteria">
+				<i class="fa fa-angle-double-right"></i> Kriteria
+			</button><br>
+			<div class="collapse table-responsive mb-3" id="collapseKriteria">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
+					data-bs-target="#tambahKriteriaModal">
+					tambah kriteria
+				</button>
+	
+				<table class="table table-striped table-bordered nowrap" id="tbl-kriteria" style="width:100%">
+					<thead>
+						<th>Kode</th>
+						<th>Nama</th>
+						<th>Nilai</th>
+						<th>Aksi</th>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+
+			<button class="btn btn-outline-success btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSubkriteria">
+				<i class="fa fa-angle-double-right"></i> Sub Kriteria
+			</button><br>
+			<div class="collapse table-responsive mb-3" id="collapseSubkriteria">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
+					data-bs-target="#tambahSubKriteriaModal">
+					tambah sub kriteria
+				</button>
+	
+				<table class="table table-striped table-bordered nowrap" id="tbl-sub-kriteria" style="width:100%">
+					<thead>
+						<th>Kriteria</th>
+						<th>Kode</th>
+						<th>Keterangan</th>
+						<th>Nilai</th>
+						<th>Aksi</th>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-7">
+			<div class="row mt-5">
+				<div class="col-12 d-flex justify-content-center">
+					<h3>Perhitungan AHP <i>(Analytic Hierarchy Process)</i></h3>
+				</div>
+				<div class="col-12 d-flex justify-content-center">
+					<a href="javascript:void(0)" onclick="prosesKriteria()" class="btn btn-sm btn-outline-success"><i
+							class="fa fa-refresh" aria-hidden="true"></i> proses</a>
+				</div>
+				<div class="ahp-note">
+					<span>Note :</sp>
+					<ul class="note-list">
+						<li>Consistency Index : untuk menghitung indeks konsistensi dengan rumus CI = (l max - n)/n-1</li>
+						<li>Index Random : value sudah sesuai dengan matriks/kategori</li>
+						<li>Consistency Ratio : Nilai Konsisten Rasio (CI/RI)</li>
+						<li>Prioritas : menghitung jumlah normalisasi tiap baris/jumlah kriteria</li>
+						<li>Eigin Value : mengalikan matriks perbandingan berpasangan dengan bobot prioritas (A)(Wt)</li>
+					</ul>
+				</div>
+				<!-- kriteria -->
+				<div class="row mt-2" id="div-proses-kriteria"></div>
+				<div class="row mt-2" id="div-proses-matriks-normalisasi"></div>
+				<div class="mt-2" id="div-proses-matriks-konsistensi"></div>
+			</div>
 		</div>
 	</div>
-	<!-- end of preloader -->
-
-
-	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-		<div class="container">
-
-			<!-- Text Logo - Use this if you don't have a graphic logo -->
-			<!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Tivo</a> -->
-
-			<!-- Image Logo -->
-			<a class="navbar-brand logo-image" href="<?= base_url('main') ?>"><img
-					src="<?= base_url('assets/logo.png') ?>" alt="alternative"></a>
-
-			<!-- Mobile Menu Toggle Button -->
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-				aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-awesome fas fa-bars"></span>
-				<span class="navbar-toggler-awesome fas fa-times"></span>
-			</button>
-			<!-- end of mobile menu toggle button -->
-
-			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-				<span class="nav-item">
-					<a class="btn-outline-sm" href="<?= base_url('login') ?>">LOGIN</a>
-				</span>
-			</div>
-		</div> <!-- end of container -->
-	</nav> <!-- end of navbar -->
-	<!-- end of navigation -->
-
-
-	<!-- Header -->
-	<header id="header" class="header">
-		<div class="header-content">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-6 col-xl-6">
-						<button type="button" class="btn btn-success btn-sm mb-3" data-toggle="modal"
-							data-target="#tambahSahamModal">
-							tambah saham
-						</button>
-						<table class="table table-bordered table-hover">
-							<thead>
-								<tr>
-									<th class="align-middle">Kode</th>
-									<th class="align-middle">Saham</th>
-									<th class="align-middle">Tanggal</th>
-									<th class="align-middle">Close</th>
-									<th class="align-middle">Aksi</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach($saham as $val) { ?>
-								<tr>
-									<td class="align-middle"><?= $val->kode_saham ?></td>
-									<td class="align-middle"><?= $val->saham ?></td>
-									<td class="align-middle"><?= date("d-m-Y", strtotime($val->tanggal)); ?></td>
-									<td class="align-middle"><?= $val->close ?></td>
-									<td class="align-middle">
-										<a href="javascript:void(0)" onclick="editSaham(<?=$val->id_saham?>)"
-											class="btn btn-secondary btn-sm"><i class="fa fa-eye"
-												aria-hidden="true"></i></a>
-										<a href="javascript:void(0)" onclick="editSaham(<?=$val->id_saham?>)"
-											class="btn btn-warning btn-sm"><i class="fa fa-pencil"
-												aria-hidden="true"></i></a>
-										<a href="javascript:void(0)" onclick="hapusSaham(<?=$val->id_saham?>)"
-											class="btn btn-danger btn-sm"><i class="fa fa-trash"
-												aria-hidden="true"></i></a>
-									</td>
-								</tr>
-								<?php } ?>
-							</tbody>
-						</table>
-					</div> <!-- end of col -->
-					<div class="col-lg-6 col-xl-6">
-						<button type="button" class="btn btn-success btn-sm mb-3" data-toggle="modal"
-							data-target="#tambahKriteriaModal">
-							tambah kriteria
-						</button>
-						<table class="table table-bordered table-hover">
-							<thead>
-								<tr>
-									<th class="align-middle">Kode</th>
-									<th class="align-middle">Nama</th>
-									<th class="align-middle">Nilai</th>
-									<th class="align-middle">Aksi</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach($kriteria as $val) { ?>
-								<tr>
-									<td class="align-middle"><?= $val->kode_kriteria ?></td>
-									<td class="align-middle" style="font-size:12px"><?= $val->nama_kriteria ?></td>
-									<td class="align-middle"><?= $val->nilai_kriteria ?></td>
-									<td class="align-middle">
-										<a href="javascript:void(0)" onclick="editKriteria(<?=$val->id_kriteria?>)"
-											class="btn btn-secondary btn-sm"><i class="fa fa-eye"
-												aria-hidden="true"></i></a>
-										<a href="javascript:void(0)" onclick="editKriteria(<?=$val->id_kriteria?>)"
-											class="btn btn-warning btn-sm"><i class="fa fa-pencil"
-												aria-hidden="true"></i></a>
-										<a href="javascript:void(0)" onclick="hapusKriteria(<?=$val->id_kriteria?>)"
-											class="btn btn-danger btn-sm"><i class="fa fa-trash"
-												aria-hidden="true"></i></a>
-									</td>
-								</tr>
-								<?php } ?>
-							</tbody>
-						</table>
-					</div> <!-- end of col -->
-				</div>
-				<div class="row">
-					<div class="col-lg-12 col-xl-12">
-						<button type="button" class="btn btn-success btn-sm mb-3" data-toggle="modal"
-							data-target="#tambahSubKriteriaModal">
-							tambah sub kriteria
-						</button>
-						<table class="table table-bordered table-hover">
-							<thead>
-								<tr>
-									<th class="align-middle">Kriteria</th>
-									<th class="align-middle">Kode</th>
-									<th class="align-middle">Keterangan</th>
-									<th class="align-middle">Nilai</th>
-									<th class="align-middle">Aksi</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach($subkriteria as $val) { ?>
-								<tr>
-									<td class="align-middle"><?= $val->kode_kriteria ?></td>
-									<td class="align-middle"><?= $val->kode_sub_kriteria ?></td>
-									<?php			
-										if ( $val->persen == 1 ) {
-											if ( $val->sub_kriteria_dua ) {
-												$keterangan = $val->sub_kriteria_satu . " - " . $val->sub_kriteria_dua . " %";
-											} else {
-												$keterangan = $val->simbol . $val->sub_kriteria_satu . " %";
-											}
-										} else {
-											if ( $val->sub_kriteria_dua ) {
-												$keterangan = $function->singkat_angka($val->sub_kriteria_satu) . " - " . $function->singkat_angka($val->sub_kriteria_dua);
-											} else {
-												$keterangan = $val->simbol . $function->singkat_angka($val->sub_kriteria_satu);
-											}
-										}
-									?>
-									<td class="align-middle"><?= $keterangan ?></td>
-									<td class="align-middle"><?= $val->nilai_sub_kriteria ?></td>
-									<td class="align-middle">
-										<a href="javascript:void(0)" onclick="editSubKriteria(<?=$val->id_sub_kriteria?>)"
-											class="btn btn-secondary btn-sm"><i class="fa fa-eye"
-												aria-hidden="true"></i></a>
-										<a href="javascript:void(0)" onclick="editSubKriteria(<?=$val->id_sub_kriteria?>)"
-											class="btn btn-warning btn-sm"><i class="fa fa-pencil"
-												aria-hidden="true"></i></a>
-										<a href="javascript:void(0)" onclick="hapusSubKriteria(<?=$val->id_sub_kriteria?>)"
-											class="btn btn-danger btn-sm"><i class="fa fa-trash"
-												aria-hidden="true"></i></a>
-									</td>
-								</tr>
-								<?php } ?>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="row mt-3">
-					<div class="col-12 d-flex justify-content-center">
-						<a href="javascript:void(0)" onclick="prosesKriteria()" class="btn btn-success"><i
-								class="fa fa-refresh" aria-hidden="true"></i> PROSES</a>
-					</div>
-				</div><!-- end of row -->
-			</div> <!-- end of container -->
-		</div> <!-- end of header-content -->
-	</header> <!-- end of header -->
-	<svg class="header-frame" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
-		viewBox="0 0 1920 310">
-		<defs>
-			<style>
-				.cls-1 {
-					fill: #5f4def;
-				}
-			</style>
-		</defs>
-		<title>header-frame</title>
-		<path class="cls-1"
-			d="M0,283.054c22.75,12.98,53.1,15.2,70.635,14.808,92.115-2.077,238.3-79.9,354.895-79.938,59.97-.019,106.17,18.059,141.58,34,47.778,21.511,47.778,21.511,90,38.938,28.418,11.731,85.344,26.169,152.992,17.971,68.127-8.255,115.933-34.963,166.492-67.393,37.467-24.032,148.6-112.008,171.753-127.963,27.951-19.26,87.771-81.155,180.71-89.341,72.016-6.343,105.479,12.388,157.434,35.467,69.73,30.976,168.93,92.28,256.514,89.405,100.992-3.315,140.276-41.7,177-64.9V0.24H0V283.054Z" />
-	</svg>
-	<!-- end of header -->
-
-	<!-- Description -->
-	<div class="cards-1">
-		<div class="container">
-			<div class="row mt-2 mb-3" id="div-ranking">
-			<!-- end of row -->
-		</div> <!-- end of container -->
-	</div> <!-- end of cards-1 -->
-	<!-- end of description -->
-
-
+	<div class="row m-2" id="final-parent-div">
+		<!-- ranking final -->
+		<div class="row mt-2 justify-content-center" id="div-nilai-semua-kriteria"></div>
+		<div class="row mt-2 mb-3" id="div-ranking">
+			
+		</div>
+		<!-- subkriteria -->
+		<div class="row mt-2" id="div-proses-subkriteria"></div>
+	</div>
 	<!-- Modal -->
 	<!-- SAHAM -->
 	<!-- simpan saham -->
@@ -267,9 +173,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="tambahSahamModalLabel">Tambah Saham</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<form class="form-horizontal" id="simpanSaham">
 					<div class="modal-body">
@@ -319,7 +223,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
 						<button type="submit" class="btn btn-success btn-sm">Simpan</button>
 					</div>
 				</form>
@@ -333,9 +237,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="ubahSahamModalLabel">Ubah Saham</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<form class="form-horizontal" id="perbaruiSaham">
 					<div class="modal-body">
@@ -386,7 +288,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
 						<button type="submit" class="btn btn-success btn-sm">Perbarui</button>
 					</div>
 				</form>
@@ -402,9 +304,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="tambahKriteriaModalLabel">Tambah Kriteria</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<form class="form-horizontal" id="simpanKriteria">
 					<div class="modal-body">
@@ -442,107 +342,7 @@
 									<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
 								</div>
 								<div class="row">
-									<table class="table table-bordered tbl-info-nilai-kriteria" id="black-table" style="width:100%">
-										<thead>
-											<tr>
-												<th>Intensitas Kepentingan</th>
-												<th>Definisi</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Sama pentingnya dibanding dengan yang lain</td>
-											</tr>
-											<tr>
-												<td>3</td>
-												<td>Sedikit lebih penting dibanding yang lain</td>
-											</tr>
-											<tr>
-												<td>5</td>
-												<td>Cukup penting dibanding dengan yang lain</td>
-											</tr>
-											<tr>
-												<td>7</td>
-												<td>Sangat penting dibanding dengan yang lain</td>
-											</tr>
-											<tr>
-												<td>9</td>
-												<td>Ekstrim pentingnya dibanding yang lain</td>
-											</tr>
-											<tr>
-												<td>2,4,6,8</td>
-												<td>Nilai diantara dua penilaian yang berdekatan</td>
-											</tr>
-											<tr>
-												<td>Resiprokal</td>
-												<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
-													j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
-						<button type="submit" class="btn btn-success btn-sm">Simpan</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- ubah kriteria -->
-	<div class="modal fade" id="ubahKriteriaModal" tabindex="-1" aria-labelledby="ubahKriteriaModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="ubahKriteriaModalLabel">Ubah Kriteria</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<form class="form-horizontal" id="perbaruiKriteria">
-					<div class="modal-body">
-						<input type="hidden" name="edit_id_kriteria" id="id_kriteria">
-						<div class="row mb-1">
-							<div class="col-6">
-								<div class="row">
-									<div class="col-md-3">
-										<p>Kode</p>
-									</div>
-									<div class="col-md-9">
-										<input type="text" class="form-control" name="edit_kode_kriteria"
-											id="kode_kriteria" required>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3">
-										<p>Nama</p>
-									</div>
-									<div class="col-md-9">
-										<textarea class="form-control" name="edit_nama_kriteria" id="nama_kriteria"
-											cols="10" rows="5" required></textarea>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3">
-										<p>Nilai</p>
-									</div>
-									<div class="col-md-9">
-										<input type="number" min="1" max="9" class="form-control"
-											name="edit_nilai_kriteria" id="nilai_kriteria" required>
-									</div>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="row">
-									<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
-								</div>
-								<div class="row">
-									<table class="table table-bordered tbl-info-nilai-kriteria" id="black-table" style="width:100%">
+									<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
 										<thead>
 											<th>Intensitas Kepentingan</th>
 											<th>Definisi</th>
@@ -584,7 +384,103 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-success btn-sm">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- ubah kriteria -->
+	<div class="modal fade" id="ubahKriteriaModal" tabindex="-1" aria-labelledby="ubahKriteriaModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ubahKriteriaModalLabel">Ubah Kriteria</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<form class="form-horizontal" id="perbaruiKriteria">
+					<div class="modal-body">
+						<input type="hidden" name="edit_id_kriteria" id="id_kriteria">
+						<div class="row mb-1">
+							<div class="col-6">
+								<div class="row">
+									<div class="col-md-3">
+										<p>Kode</p>
+									</div>
+									<div class="col-md-9">
+										<input type="text" class="form-control" name="edit_kode_kriteria"
+											id="kode_kriteria" required>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<p>Nama</p>
+									</div>
+									<div class="col-md-9">
+										<textarea class="form-control" name="edit_nama_kriteria" id="nama_kriteria"
+											cols="10" rows="5" required></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<p>Nilai</p>
+									</div>
+									<div class="col-md-9">
+										<input type="number" min="1" max="9" class="form-control"
+											name="edit_nilai_kriteria" id="nilai_kriteria" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="row">
+									<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+								</div>
+								<div class="row">
+									<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
+										<thead>
+											<th>Intensitas Kepentingan</th>
+											<th>Definisi</th>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>Sama pentingnya dibanding dengan yang lain</td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td>Sedikit lebih penting dibanding yang lain</td>
+											</tr>
+											<tr>
+												<td>5</td>
+												<td>Cukup penting dibanding dengan yang lain</td>
+											</tr>
+											<tr>
+												<td>7</td>
+												<td>Sangat penting dibanding dengan yang lain</td>
+											</tr>
+											<tr>
+												<td>9</td>
+												<td>Ekstrim pentingnya dibanding yang lain</td>
+											</tr>
+											<tr>
+												<td>2,4,6,8</td>
+												<td>Nilai diantara dua penilaian yang berdekatan</td>
+											</tr>
+											<tr>
+												<td>Resiprokal</td>
+												<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
+													j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
 						<button type="submit" class="btn btn-success btn-sm">Perbarui</button>
 					</div>
 				</form>
@@ -600,95 +496,97 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="tambahSubKriteriaModalLabel">Tambah Sub Kriteria</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<form class="form-horizontal" id="simpanSubKriteria">
 					<div class="modal-body">
-						<div class="row mb-2">
-							<div class="col-md-5 form-group">
-								<label for="">Kriteria</label>
-								<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="pilihKriteria" name="kriteria_id" required>
-									<option value='0'>-- Pilih Kriteria --</option>
-								</select>
+						<div class="row mb-1">
+							<div class="row mb-2">
+								<div class="col-md-5 form-group">
+									<label for="">Kriteria</label>
+									<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="pilihKriteria" name="kriteria_id" required>
+										<option value='0'>-- Pilih Kriteria --</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label for="">Kode</label>
+									<input type="text" class="form-control" name="kode_sub_kriteria" required>
+								</div>
+								<div class="col-md-3">
+									<label for="">Nilai</label>
+									<input type="number" min="1" max="9" class="form-control" name="nilai_sub_kriteria" required>
+								</div>
 							</div>
-							<div class="col-md-4">
-								<label for="">Kode</label>
-								<input type="text" class="form-control" name="kode_sub_kriteria" required>
-							</div>
-							<div class="col-md-3">
-								<label for="">Nilai</label>
-								<input type="number" min="1" max="9" class="form-control" name="nilai_sub_kriteria" required>
-							</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-md-2 form-group">
-								<label for="">Simbol</label>
-								<select class="form-control" name="simbol" id="simbol">
-									<option value=""></option>
-									<option value=">">></option>
-									<option value="<"><</option>
-								</select>
-							</div>
-							<div class="col-md-4">
-								<label for="">Nominal 1</label>
-								<input type="text" class="form-control" name="sub_kriteria_satu" id="sub_kriteria_satu" required>
-							</div>
-							<div class="col-md-4">
-								<label for="">Nominal 2</label>
-								<input type="text" class="form-control" name="sub_kriteria_dua" id="sub_kriteria_dua" data-toggle="tooltip" data-placement="top" title="Nominal 2 harus lebih besar nilainya dari Nominal 1">
-							</div>
-							<div class="col-md-2 pt-4">
-								<input type="checkbox" name="persen" id="persen" value=1>
-								<label for="">%</label>
+							<div class="row mb-3">
+								<div class="col-md-2 form-group">
+									<label for="">Nominal 1</label>
+									<select class="form-control" name="simbol" id="simbol">
+										<option value=""></option>
+										<option value=">">></option>
+										<option value="<"><</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label for="" style="color:white">S</label>
+									<input type="text" class="form-control" name="sub_kriteria_satu" id="sub_kriteria_satu" required>
+								</div>
+								<div class="col-md-4">
+									<label for="">Nominal 2</label>
+									<input type="text" class="form-control" name="sub_kriteria_dua" id="sub_kriteria_dua" data-bs-toggle="tooltip" data-bs-placement="top" title="Nominal 2 harus lebih besar nilainya dari Nominal 1">
+								</div>
+								<div class="col-md-2 pt-4">
+									<input type="checkbox" name="persen" id="persen" value=1>
+									<label for="">%</label>
+								</div>
 							</div>
 						</div>
 						<div class="row">
-							<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
-						</div>
-						<div class="row">
-							<table class="table table-bordered tbl-info-nilai-kriteria" id="black-table" style="width:100%">
-								<thead>
-									<th>Intensitas Kepentingan</th>
-									<th>Definisi</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>Sama pentingnya dibanding dengan yang lain</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Sedikit lebih penting dibanding yang lain</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>Cukup penting dibanding dengan yang lain</td>
-									</tr>
-									<tr>
-										<td>7</td>
-										<td>Sangat penting dibanding dengan yang lain</td>
-									</tr>
-									<tr>
-										<td>9</td>
-										<td>Ekstrim pentingnya dibanding yang lain</td>
-									</tr>
-									<tr>
-										<td>2,4,6,8</td>
-										<td>Nilai diantara dua penilaian yang berdekatan</td>
-									</tr>
-									<tr>
-										<td>Resiprokal</td>
-										<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
-											j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
-									</tr>
-								</tbody>
-							</table>
+							<div class="row">
+								<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+							</div>
+							<div class="row">
+								<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
+									<thead>
+										<th>Intensitas Kepentingan</th>
+										<th>Definisi</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>Sama pentingnya dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>Sedikit lebih penting dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>5</td>
+											<td>Cukup penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>7</td>
+											<td>Sangat penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>9</td>
+											<td>Ekstrim pentingnya dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>2,4,6,8</td>
+											<td>Nilai diantara dua penilaian yang berdekatan</td>
+										</tr>
+										<tr>
+											<td>Resiprokal</td>
+											<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
+												j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
 						<button type="submit" class="btn btn-success btn-sm">Simpan</button>
 					</div>
 				</form>
@@ -702,96 +600,98 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="ubahSubKriteriaModalLabel">Ubah Sub Kriteria</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<form class="form-horizontal" id="perbaruiSubKriteria">
 					<div class="modal-body">
 						<input type="hidden" name="edit_id_sub_kriteria" id="edit_id_sub_kriteria">
-						<div class="row mb-2">
-							<div class="col-md-5 form-group">
-								<label for="">Kriteria</label>
-								<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="ubahKriteria" name="edit_kriteria_id" required>
-									<option value='0'>-- Pilih Kriteria --</option>
-								</select>
+						<div class="row mb-1">
+							<div class="row mb-2">
+								<div class="col-md-5 form-group">
+									<label for="">Kriteria</label>
+									<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="ubahKriteria" name="edit_kriteria_id" required>
+										<option value='0'>-- Pilih Kriteria --</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label for="">Kode</label>
+									<input type="text" class="form-control" name="edit_kode_sub_kriteria" id="edit_kode_sub_kriteria" required>
+								</div>
+								<div class="col-md-3">
+									<label for="">Nilai</label>
+									<input type="number" min="1" max="9" class="form-control" name="edit_nilai_sub_kriteria" id="edit_nilai_sub_kriteria" required>
+								</div>
 							</div>
-							<div class="col-md-4">
-								<label for="">Kode</label>
-								<input type="text" class="form-control" name="edit_kode_sub_kriteria" id="edit_kode_sub_kriteria" required>
-							</div>
-							<div class="col-md-3">
-								<label for="">Nilai</label>
-								<input type="number" min="1" max="9" class="form-control" name="edit_nilai_sub_kriteria" id="edit_nilai_sub_kriteria" required>
-							</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-md-2 form-group">
-								<label for="">Simbol</label>
-								<select class="form-control" name="edit_simbol" id="edit_simbol">
-									<option value=""></option>
-									<option value=">">></option>
-									<option value="<"><</option>
-								</select>
-							</div>
-							<div class="col-md-4">
-								<label for="">Nominal 1</label>
-								<input type="text" class="form-control" name="edit_sub_kriteria_satu" id="edit_sub_kriteria_satu" required>
-							</div>
-							<div class="col-md-4">
-								<label for="">Nominal 2</label>
-								<input type="text" class="form-control" name="edit_sub_kriteria_dua" id="edit_sub_kriteria_dua" data-toggle="tooltip" data-placement="top" title="Nominal 2 harus lebih besar nilainya dari Nominal 1">
-							</div>
-							<div class="col-md-2 pt-4">
-								<input type="checkbox" name="edit_persen" id="edit_persen" value=1>
-								<label for="">%</label>
+							<div class="row mb-3">
+								<div class="col-md-2 form-group">
+									<label for="">Nominal 1</label>
+									<select class="form-control" name="edit_simbol" id="edit_simbol">
+										<option value=""></option>
+										<option value=">">></option>
+										<option value="<"><</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label for="" style="color:white">S</label>
+									<input type="text" class="form-control" name="edit_sub_kriteria_satu" id="edit_sub_kriteria_satu" required>
+								</div>
+								<div class="col-md-4">
+									<label for="">Nominal 2</label>
+									<input type="text" class="form-control" name="edit_sub_kriteria_dua" id="edit_sub_kriteria_dua" data-bs-toggle="tooltip" data-bs-placement="top" title="Nominal 2 harus lebih besar nilainya dari Nominal 1">
+								</div>
+								<div class="col-md-2 pt-4">
+									<input type="checkbox" name="edit_persen" id="edit_persen" value=1>
+									<label for="">%</label>
+								</div>
 							</div>
 						</div>
 						<div class="row">
-							<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
-						</div>
-						<div class="row">
-							<table class="table table-bordered tbl-info-nilai-kriteria" id="black-table" style="width:100%">
-								<thead>
-									<th>Intensitas Kepentingan</th>
-									<th>Definisi</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>Sama pentingnya dibanding dengan yang lain</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Sedikit lebih penting dibanding yang lain</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>Cukup penting dibanding dengan yang lain</td>
-									</tr>
-									<tr>
-										<td>7</td>
-										<td>Sangat penting dibanding dengan yang lain</td>
-									</tr>
-									<tr>
-										<td>9</td>
-										<td>Ekstrim pentingnya dibanding yang lain</td>
-									</tr>
-									<tr>
-										<td>2,4,6,8</td>
-										<td>Nilai diantara dua penilaian yang berdekatan</td>
-									</tr>
-									<tr>
-										<td>Resiprokal</td>
-										<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
-											j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
-									</tr>
-								</tbody>
-							</table>
+							<div class="row">
+								<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+							</div>
+							<div class="row">
+								<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
+									<thead>
+										<th>Intensitas Kepentingan</th>
+										<th>Definisi</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>Sama pentingnya dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>Sedikit lebih penting dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>5</td>
+											<td>Cukup penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>7</td>
+											<td>Sangat penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>9</td>
+											<td>Ekstrim pentingnya dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>2,4,6,8</td>
+											<td>Nilai diantara dua penilaian yang berdekatan</td>
+										</tr>
+										<tr>
+											<td>Resiprokal</td>
+											<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
+												j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
 						<button type="submit" class="btn btn-success btn-sm">Perbarui</button>
 					</div>
 				</form>
@@ -799,31 +699,10 @@
 		</div>
 	</div>
 
-	<!-- Copyright -->
-	<div class="copyright">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<!-- <p class="p-small">Copyright © 2020 <a href="https://inovatik.com">Template by Inovatik</a><br>
-						Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-					</p> -->
-					<p class="p-small">
-						SPK Ubhara 2021 Saham AHP
-					</p>
-				</div> <!-- end of col -->
-			</div> <!-- enf of row -->
-		</div> <!-- end of container -->
-	</div> <!-- end of copyright -->
-	<!-- end of copyright -->
 	<script src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
-	<script src="<?= base_url('assets/js/popper.min.js') ?>"></script>
-	<script src="<?= base_url('assets/js/bootstrap4.min.js') ?>"></script>
-	<script src="<?= base_url('assets/js/jquery.easing.min.js') ?>"></script>
-	<script src="<?= base_url('assets/js/swiper.min.js') ?>"></script>
-	<script src="<?= base_url('assets/js/jquery.magnific-popup.js') ?>"></script>
-	<script src="<?= base_url('assets/js/validator.min.js') ?>"></script>
-	<script src="<?= base_url('assets/js/scripts.js') ?>"></script>
+	<script src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
 	<script src="<?= base_url('assets/select2/dist/js/select2.min.js') ?>"></script>
+	<script src="<?= base_url('assets/dataTable/js/jquery.dataTables.min.js') ?>"></script>
 	<script src="<?= base_url('assets/sweetalert/sweetalert.min.js') ?>"></script>
 	<script type="text/javascript">
 		var div_subkriteria = ""
@@ -832,6 +711,36 @@
 		var tblKriteriaPertama = []
 		var hasilRanking = []
         format_nominal_uang();
+		var tabel_saham = $('#tbl-saham').DataTable({
+			"responsive": true,
+			"serverSide": true,
+			"order": [],
+			"ajax": {
+				url: "<?= site_url('saham/data') ?>",
+				type: "POST"
+			},
+		});
+
+		var tabel_kriteria = $('#tbl-kriteria').DataTable({
+			"responsive": true,
+			"serverSide": true,
+			"order": [],
+			"ajax": {
+				url: "<?= site_url('kriteria/data') ?>",
+				type: "POST"
+			},
+		});
+
+        var tabel_sub_kriteria = $('#tbl-sub-kriteria').DataTable({
+			"responsive": true,
+			"serverSide": true,
+			"order": [],
+			"ajax": {
+				url: "<?= site_url('subkriteria/data') ?>",
+				type: "POST"
+			},
+		});
+
 		function formatAngka(angka){
 			if ( angka.indexOf("-") !== -1 ) { return angka};
 			var number_string = angka.replace(/[^-.\d]/g, '').toString(),
@@ -909,6 +818,7 @@
 			result = format_angka.replace(pisah, format_angka)
 			return result + simbol;
 		}
+
 		// SAHAM
 		$('#simpanSaham').on('submit', function (e) {
 			if (!e.isDefaultPrevented()) {
@@ -933,7 +843,8 @@
 						}).then(function () {
 							$('#tambahSahamModal').modal('hide');
 							$('#tambahSahamModal form')[0].reset();
-							location.reload(); 
+							//datatable refresh
+							$('#tbl-saham').DataTable().ajax.reload();
 						});
 					},
 					error: function (e) {
@@ -993,7 +904,7 @@
 						}).then(function () {
 							$('#ubahSahamModal').modal('hide');
 							$('#ubahSahamModal form')[0].reset();
-							location.reload(); 
+							$('#tbl-saham').DataTable().ajax.reload();
 						});
 					},
 					error: function (e) {
@@ -1038,7 +949,7 @@
 								swal("Saham berhasil dihapus", {
 									icon: "success",
 								}).then(function () {
-									location.reload(); 
+									$('#tbl-saham').DataTable().ajax.reload();
 								});
 							},
 							error: function () {
@@ -1077,7 +988,8 @@
 						}).then(function () {
 							$('#tambahKriteriaModal').modal('hide');
 							$('#tambahKriteriaModal form')[0].reset();
-							location.reload(); 
+							//datatable refresh
+							$('#tbl-kriteria').DataTable().ajax.reload();
 						});
 					},
 					error: function (e) {
@@ -1131,7 +1043,8 @@
 						}).then(function () {
 							$('#ubahKriteriaModal').modal('hide');
 							$('#ubahKriteriaModal form')[0].reset();
-							location.reload(); 
+							$('#tbl-kriteria').DataTable().ajax.reload();
+							$('#tbl-sub-kriteria').DataTable().ajax.reload();
 						});
 					},
 					error: function (e) {
@@ -1183,7 +1096,7 @@
 									swal("Kriteria berhasil dihapus", {
 										icon: "success",
 									}).then(function () {
-										location.reload(); 
+										$('#tbl-kriteria').DataTable().ajax.reload();
 									});
 								}
 							},
@@ -1244,7 +1157,8 @@
 						}).then(function () {
 							$('#tambahSubKriteriaModal').modal('hide');
 							$('#tambahSubKriteriaModal form')[0].reset();
-							location.reload(); 
+							//datatable refresh
+							$('#tbl-sub-kriteria').DataTable().ajax.reload();
 						});
 					},
 					error: function (e) {
@@ -1326,7 +1240,7 @@
 						}).then(function () {
 							$('#ubahSubKriteriaModal').modal('hide');
 							$('#ubahSubKriteriaModal form')[0].reset();
-							location.reload(); 
+							$('#tbl-sub-kriteria').DataTable().ajax.reload();
 						});
 					},
 					error: function (e) {
@@ -1371,7 +1285,7 @@
 								swal("Sub Kriteria berhasil dihapus", {
 									icon: "success",
 								}).then(function () {
-									location.reload(); 
+									$('#tbl-sub-kriteria').DataTable().ajax.reload();
 								});
 							},
 							error: function () {
@@ -1998,22 +1912,21 @@
 							tr_td_hasil_akhir += "<td>"+ranking(hasilRanking)[index]+"</td>"
 							tr_td_hasil_akhir += "</tr>"
 						}
-						$('#div-ranking').html(
-						// "<div class='col-md-4 table-responsive pt-3'>"+
-						// 	"<h4>Alternatif</h4>"+
-						// 	"<table class='table table-bordered border-success tbl-alternatif' style='width:100%'>" +
-						// 		"<thead>"+
-						// 			"<tr>"+
-						// 				"<th></th>"+
-						// 				th_alternatif+
-						// 			"</tr>"+
-						// 		"</thead>"+
-						// 		"<tbody>"+
-						// 			tr_td_alternatif+
-						// 		"</tbody>"+
-						// 	"</table>"+
-						// "</div>"+
-						"<div class='col-md-12 div-hasil-akhir pt-3 table-responsive'>"+
+						$('#div-ranking').html("<div class='col-md-4 table-responsive pt-3'>"+
+							"<h4>Alternatif</h4>"+
+							"<table class='table table-bordered border-success tbl-alternatif' style='width:100%'>" +
+								"<thead>"+
+									"<tr>"+
+										"<th></th>"+
+										th_alternatif+
+									"</tr>"+
+								"</thead>"+
+								"<tbody>"+
+									tr_td_alternatif+
+								"</tbody>"+
+							"</table>"+
+						"</div>"+
+						"<div class='col-md-8 div-hasil-akhir pt-3 table-responsive'>"+
 							"<h4>Hasil Akhir</h4>"+	
 							"<table class='table table-bordered border-success tbl-hasil-akhir' style='width:100%'>" +
 								"<thead>"+

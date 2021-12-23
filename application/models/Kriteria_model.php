@@ -71,5 +71,11 @@ class Kriteria_model extends CI_Model {
     public function data() {
         return $this->db->get('kriteria');
     }
+
+    
+    // new main
+    function dataMain(){
+		return $query = $this->db->get('kriteria')->result();		
+	}
 }
 ?>

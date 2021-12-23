@@ -1,0 +1,245 @@
+<div class="main-panel">
+	<div class="content-wrapper">
+		<div class="row">
+			<div class="col-12 grid-margin stretch-card">
+				<div class="card">
+					<div class="card-body table-responsive">
+						<h4 class="card-title">Sub Kriteria</h4>
+						<p class="card-description">
+							<button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal"
+								data-bs-target="#tambahSubKriteriaModal">
+								tambah sub kriteria
+							</button>
+						</p>
+						<table class="table table-striped table-bordered nowrap" id="tbl-sub-kriteria" style="width:100%">
+							<thead>
+								<th>Kriteria</th>
+								<th>Kode</th>
+								<th>Keterangan</th>
+								<th>Nilai</th>
+								<th>Aksi</th>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<!-- SUBKRITERIA -->
+	<!-- simpan subkriteria -->
+	<div class="modal fade" id="tambahSubKriteriaModal" tabindex="-1" aria-labelledby="tambahSubKriteriaModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="tambahSubKriteriaModalLabel">Tambah Sub Kriteria</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<form class="form-horizontal" id="simpanSubKriteria">
+					<div class="modal-body">
+						<div class="row mb-1">
+							<div class="row mb-2">
+								<div class="col-md-5 form-group">
+									<label for="">Kriteria</label>
+									<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="pilihKriteria" name="kriteria_id" required>
+										<option value='0'>-- Pilih Kriteria --</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label for="">Kode</label>
+									<input type="text" class="form-control" name="kode_sub_kriteria" required>
+								</div>
+								<div class="col-md-3">
+									<label for="">Nilai</label>
+									<input type="number" min="1" max="9" class="form-control" name="nilai_sub_kriteria" required>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-2 form-group">
+									<label for="">Simbol</label>
+									<select class="form-control" name="simbol" id="simbol">
+										<option value=""></option>
+										<option value=">">></option>
+										<option value="<"><</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label for="">Nominal 1</label>
+									<input type="text" class="form-control" name="sub_kriteria_satu" id="sub_kriteria_satu" required>
+								</div>
+								<div class="col-md-4">
+									<label for="">Nominal 2</label>
+									<input type="text" class="form-control" name="sub_kriteria_dua" id="sub_kriteria_dua" data-bs-toggle="tooltip" data-bs-placement="top" title="Nominal 2 harus lebih besar nilainya dari Nominal 1">
+								</div>
+								<div class="col-md-2 pt-4">
+									<input type="checkbox" name="persen" id="persen" value=1>
+									<label for="">%</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="row">
+								<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+							</div>
+							<div class="row">
+								<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
+									<thead>
+										<th>Intensitas Kepentingan</th>
+										<th>Definisi</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>Sama pentingnya dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>Sedikit lebih penting dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>5</td>
+											<td>Cukup penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>7</td>
+											<td>Sangat penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>9</td>
+											<td>Ekstrim pentingnya dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>2,4,6,8</td>
+											<td>Nilai diantara dua penilaian yang berdekatan</td>
+										</tr>
+										<tr>
+											<td>Resiprokal</td>
+											<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
+												j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-success btn-sm">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- ubah subkriteria -->
+	<div class="modal fade" id="ubahSubKriteriaModal" tabindex="-1" aria-labelledby="ubahSubKriteriaModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ubahSubKriteriaModalLabel">Ubah Sub Kriteria</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<form class="form-horizontal" id="perbaruiSubKriteria">
+					<div class="modal-body">
+						<input type="hidden" name="edit_id_sub_kriteria" id="edit_id_sub_kriteria">
+						<div class="row mb-1">
+							<div class="row mb-2">
+								<div class="col-md-5 form-group">
+									<label for="">Kriteria</label>
+									<select class="form-control" style="width:100%" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ..." id="ubahKriteria" name="edit_kriteria_id" required>
+										<option value='0'>-- Pilih Kriteria --</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label for="">Kode</label>
+									<input type="text" class="form-control" name="edit_kode_sub_kriteria" id="edit_kode_sub_kriteria" required>
+								</div>
+								<div class="col-md-3">
+									<label for="">Nilai</label>
+									<input type="number" min="1" max="9" class="form-control" name="edit_nilai_sub_kriteria" id="edit_nilai_sub_kriteria" required>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-2 form-group">
+									<label for="">Simbol</label>
+									<select class="form-control" name="edit_simbol" id="edit_simbol">
+										<option value=""></option>
+										<option value=">">></option>
+										<option value="<"><</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label for="">Nominal 1</label>
+									<input type="text" class="form-control" name="edit_sub_kriteria_satu" id="edit_sub_kriteria_satu" required>
+								</div>
+								<div class="col-md-4">
+									<label for="">Nominal 2</label>
+									<input type="text" class="form-control" name="edit_sub_kriteria_dua" id="edit_sub_kriteria_dua" data-bs-toggle="tooltip" data-bs-placement="top" title="Nominal 2 harus lebih besar nilainya dari Nominal 1">
+								</div>
+								<div class="col-md-2 pt-4">
+									<input type="checkbox" name="edit_persen" id="edit_persen" value=1>
+									<label for="">%</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="row">
+								<button type="button" class="btn btn-sm btn-secondary">Keterangan Nilai</button>
+							</div>
+							<div class="row">
+								<table class="table table-bordered tbl-info-nilai-kriteria" style="width:100%">
+									<thead>
+										<th>Intensitas Kepentingan</th>
+										<th>Definisi</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>Sama pentingnya dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>Sedikit lebih penting dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>5</td>
+											<td>Cukup penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>7</td>
+											<td>Sangat penting dibanding dengan yang lain</td>
+										</tr>
+										<tr>
+											<td>9</td>
+											<td>Ekstrim pentingnya dibanding yang lain</td>
+										</tr>
+										<tr>
+											<td>2,4,6,8</td>
+											<td>Nilai diantara dua penilaian yang berdekatan</td>
+										</tr>
+										<tr>
+											<td>Resiprokal</td>
+											<td>Jika elemen i memiliki salah satu angka di atas dibandingkan elemen
+												j, maka j memiliki nilai kebaikannya ketika dibanding dengan i</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-success btn-sm">Perbarui</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<input type="hidden" class="form-control" name="nilai_volume" id="nilai_volume">
+	<input type="hidden" class="form-control" name="nilai_market_cap" id="nilai_market_cap">
+	<input type="hidden" class="form-control" name="edit_nilai_volume" id="edit_nilai_volume">
+	<input type="hidden" class="form-control" name="edit_nilai_market_cap" id="edit_nilai_market_cap">
